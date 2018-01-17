@@ -1,8 +1,10 @@
 /*
  Name:		ArduinoPlanter.ino
  Created:	1/17/2018 10:14:21 PM
- Author:	kalle
+ Author:	Kalle Hallivuori <korpiq@iki.fi>
 */
+
+#include "Configuration.h"
 
 // the setup function runs once when you press reset or power the board
 void setup() {
