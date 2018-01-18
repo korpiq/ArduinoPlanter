@@ -18,13 +18,7 @@ protected:
 	bool state;
 
 public:
-	DigitalWriter(digital_out_t pin)
-	{
-		this->pin = pin;
-		this->state = false;
-	}
-
-	void init();
+	void init(digital_out_t pin);
 	void write(bool on);
 	bool isOn();
 };

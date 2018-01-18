@@ -1,8 +1,9 @@
 
 #include "DigitalReader.h"
 
-void DigitalReader::init()
+void DigitalReader::init(digital_in_t pin)
 {
+	this->pin = pin;
 	pinMode(pin, INPUT);
 }
 

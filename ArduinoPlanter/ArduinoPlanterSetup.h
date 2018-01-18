@@ -18,27 +18,19 @@ class ArduinoPlanterSetup
 {
 private:
 	AnalogReader
-		*acidityReader;
+		acidityReader;
 
 	DigitalReader
-		*airReader,
-		*waterBottomReader,
-		*waterTopReader;
+		airReader,
+		waterBottomReader,
+		waterTopReader;
 
 	DigitalWriter
-		*lampWriter,
-		*pumpWriter;
-
-	void init(arduino_planter_configuration_t*);
-	void clear();
+		lampWriter,
+		pumpWriter;
 
 public:
-	ArduinoPlanterSetup(arduino_planter_configuration_t * configuration) {
-		init(configuration);
-	}
-	~ArduinoPlanterSetup() {
-		clear();
-	}
+	void init(arduino_planter_configuration_t*);
 };
 
 #endif

@@ -1,12 +1,10 @@
-// 
-// 
-// 
 
 #include "DigitalWriter.h"
 
-
-void DigitalWriter::init()
+void DigitalWriter::init(digital_out_t pin)
 {
+	this->pin = pin;
+	this->state = false;
 	pinMode(pin, OUTPUT);
 }
 

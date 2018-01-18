@@ -17,12 +17,7 @@ protected:
 	digital_in_t pin;
 
 public:
-	DigitalReader(digital_in_t pin)
-	{
-		this->pin = pin;
-	}
-
-	void init();
+	void init(digital_in_t pin);
 	int read();
 };
 

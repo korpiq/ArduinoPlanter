@@ -17,11 +17,7 @@ protected:
 	analog_in_t pin;
 
 public:
-	AnalogReader(analog_in_t pin)
-	{
-		this->pin = pin;
-	}
-
+	void init(analog_in_t pin);
 	int read();
 };
 
