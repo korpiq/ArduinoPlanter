@@ -17,7 +17,7 @@ public:
 	void init(int baudRate);
 	bool available();
 	int read();
-	void write(JsonObject&);
+	void write(JsonObject*);
 };
 
 #endif

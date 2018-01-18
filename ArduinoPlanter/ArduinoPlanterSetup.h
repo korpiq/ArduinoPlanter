@@ -31,10 +31,10 @@ private:
 		lampWriter,
 		pumpWriter;
 
+public:
 	SerialCommunicator
 		serialCommunicator;
 
-public:
 	void init(arduino_planter_configuration_t*);
 	void updateReadings(readings_t*);
 };

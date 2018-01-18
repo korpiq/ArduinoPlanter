@@ -6,8 +6,12 @@
 
 void SerialCommunicator::init(int baudRate)
 {
-	Serial.begin(baudRate);
-	while (!Serial); // wait for Serial to initialize
+	if (!Serial)
+	{
+		// initialize only when not yet started to avoid hanging on begin
+		Serial.begin(baudRate);
+		while (!Serial); // wait for Serial to initialize
+	}
 }
 
 bool SerialCommunicator::available()
@@ -20,7 +24,8 @@ int SerialCommunicator::read()
 	return Serial.read();
 }
 
-void SerialCommunicator::write(JsonObject &json)
+void SerialCommunicator::write(JsonObject *json)
 {
-	json.printTo(Serial);
+	json->printTo(Serial);
+	Serial.write("\r\n");
 }
