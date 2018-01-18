@@ -18,7 +18,7 @@ protected:
 
 public:
 	void init(digital_in_t pin);
-	int read();
+	bool read();
 };
 
 #endif

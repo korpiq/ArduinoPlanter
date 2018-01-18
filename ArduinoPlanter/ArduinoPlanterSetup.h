@@ -13,6 +13,8 @@
 #include "AnalogReader.h"
 #include "DigitalReader.h"
 #include "DigitalWriter.h"
+#include "SerialCommunicator.h"
+#include "Readings.h"
 
 class ArduinoPlanterSetup
 {
@@ -29,8 +31,12 @@ private:
 		lampWriter,
 		pumpWriter;
 
+	SerialCommunicator
+		serialCommunicator;
+
 public:
 	void init(arduino_planter_configuration_t*);
+	void updateReadings(readings_t*);
 };
 
 #endif

@@ -7,7 +7,7 @@ void DigitalReader::init(digital_in_t pin)
 	pinMode(pin, INPUT);
 }
 
-int DigitalReader::read()
+bool DigitalReader::read()
 {
-	return digitalRead(pin);
+	return digitalRead(pin) ? true : false;
 }
