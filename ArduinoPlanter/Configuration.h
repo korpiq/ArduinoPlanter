@@ -1,12 +1,9 @@
 #ifndef ARDUINO_PLANTER_CONFIGURATION
 #define ARDUINO_PLANTER_CONFIGURATION
 
-/* Declaration of available planter configuration settings */
+#include "arduino_planter_types.h"
 
-typedef int analog_in_t;
-typedef int digital_in_t;
-typedef int digital_out_t;
-typedef uint32_t milliseconds_t;
+/* Declaration of available planter configuration settings */
 
 typedef struct arduino_planter_configuration {
 	analog_in_t
@@ -36,5 +33,7 @@ typedef struct arduino_planter_configuration {
 
 	int serial_port_speed;
 } arduino_planter_configuration_t;
+
+extern arduino_planter_configuration_t default_configuration;
 
 #endif
