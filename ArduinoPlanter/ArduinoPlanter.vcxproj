@@ -86,6 +86,8 @@
     <ClInclude Include="arduino_planter_types.h" />
     <ClInclude Include="Configuration.h" />
     <ClInclude Include="ArduinoPlanterSetup.h" />
+    <ClInclude Include="Decider.h" />
+    <ClInclude Include="Decisions.h" />
     <ClInclude Include="Readings.h" />
     <ClInclude Include="Report.h" />
     <ClInclude Include="__vm\.ArduinoPlanter.vsarduino.h" />
@@ -93,6 +95,8 @@
   <ItemGroup>
     <ClCompile Include="Configuration.c" />
     <ClCompile Include="ArduinoPlanterSetup.cpp" />
+    <ClCompile Include="Decider.cpp" />
+    <ClCompile Include="Decisions.c" />
     <ClCompile Include="Report.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

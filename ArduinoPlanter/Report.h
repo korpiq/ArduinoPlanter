@@ -11,6 +11,7 @@
 
 #include "ArduinoJson.h"
 #include "Readings.h"
+#include "Decisions.h"
 
 class Report
 {
@@ -18,6 +19,7 @@ class Report
 public:
 	JsonObject & contents = jsonBuffer.createObject();
 	void setReadings(readings_t*);
+	void setDecisions(decisions_t * decisions);
 	void send();
 };
 

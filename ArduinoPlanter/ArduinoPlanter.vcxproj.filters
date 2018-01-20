@@ -39,6 +39,12 @@
     <ClInclude Include="Report.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Decider.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Decisions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Configuration.c">
@@ -48,6 +54,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Report.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Decider.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Decisions.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

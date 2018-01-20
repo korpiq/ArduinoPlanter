@@ -10,19 +10,22 @@
 #endif
 
 #include "Configuration.h"
-#include "Readings.h"
+#include "State.h"
 
 class ArduinoPlanterSetup
 {
 private:
 	arduino_planter_configuration_t * configuration;
+	planter_state_t * state;
 	bool isLampOn = false, isPumpOn = false;
+	void initDevice(arduino_planter_configuration_t&);
+	void initState(planter_state_t&);
 	void initSerial(int baudRate);
 	bool readWaterSensor(digital_in_t pin);
 
 public:
-	void init(arduino_planter_configuration_t&);
-	void updateReadings(readings_t&);
+	void init(arduino_planter_configuration_t&, planter_state_t&);
+	void updateReadings();
 	void setLamp(bool on);
 	void setPump(bool on);
 };
