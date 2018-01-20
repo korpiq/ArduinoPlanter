@@ -14,10 +14,10 @@
 typedef struct planter_state {
 	readings_t readings;
 	milliseconds_t
-		lamp_change_time,
-		pump_change_time;
+		lamp_start_time,
+		lamp_stop_time,
+		pump_start_time,
+		pump_stop_time;
 } planter_state_t;
-
-void initPlanterState(planter_state_t * state);
 
 #endif

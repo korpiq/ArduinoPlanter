@@ -1,15 +1,16 @@
 #include "ArduinoPlanterSetup.h"
 
-void ArduinoPlanterSetup::init(arduino_planter_configuration_t & configuration, planter_state & state)
+void ArduinoPlanterSetup::init(arduino_planter_configuration_t & configuration, planter_state_t & state)
 {
+	this->configuration = &configuration;
 	initDevice(configuration);
+
+	this->state = &state;
 	initState(state);
 }
 
 void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configuration)
 {
-	this->configuration = &configuration;
-
 	pinMode(configuration.air_read_pin, INPUT);
 	pinMode(configuration.water_bottom_pin, INPUT);
 	pinMode(configuration.water_top_pin, INPUT);
@@ -20,14 +21,6 @@ void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configura
 	initSerial(configuration.serial_port_speed);
 }
 
-void ArduinoPlanterSetup::initState(planter_state_t & state)
-{
-	this->state = &state;
-
-	state.lamp_change_time = 0;
-	state.pump_change_time = 0;
-}
-
 void ArduinoPlanterSetup::initSerial(int baudRate)
 {
 	// initialize only when not yet started to avoid hanging on begin
@@ -36,6 +29,14 @@ void ArduinoPlanterSetup::initSerial(int baudRate)
 		Serial.begin(baudRate);
 		while (!Serial); // wait for Serial to initialize
 	}
+}
+
+void ArduinoPlanterSetup::initState(planter_state_t & state)
+{
+	state.lamp_start_time = 0;
+	state.lamp_stop_time = 0;
+	state.pump_start_time = 0;
+	state.pump_stop_time = 0;
 }
 
 void ArduinoPlanterSetup::updateReadings()
@@ -59,11 +60,11 @@ bool ArduinoPlanterSetup::readWaterSensor(digital_in_t pin)
 void ArduinoPlanterSetup::setLamp(bool on)
 {
 	digitalWrite(configuration->lamp_pin, (isLampOn = on) ? HIGH : LOW);
-	state->lamp_change_time = millis();
+	*(on ? &state->lamp_start_time : &state->lamp_stop_time) = millis();
 }
 
 void ArduinoPlanterSetup::setPump(bool on)
 {
 	digitalWrite(configuration->pump_pin, (isPumpOn = on) ? HIGH : LOW);
-	state->pump_change_time = millis();
+	*(on ? &state->pump_start_time : &state->pump_stop_time) = millis();
 }

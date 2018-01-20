@@ -28,7 +28,7 @@ void loop() {
 	report.setReadings(&state.readings);
 	report.send();
 
-	decider.updateDecisions(state.readings, decisions);
+	decider.updateDecisions(state, decisions);
 	report.setDecisions(&decisions);
 	report.send();
 	delay(300);

@@ -90,6 +90,7 @@
     <ClInclude Include="Decisions.h" />
     <ClInclude Include="Readings.h" />
     <ClInclude Include="Report.h" />
+    <ClInclude Include="State.h" />
     <ClInclude Include="__vm\.ArduinoPlanter.vsarduino.h" />
   </ItemGroup>
   <ItemGroup>
