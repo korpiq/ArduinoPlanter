@@ -4,11 +4,10 @@
  Author:	Kalle Hallivuori <korpiq@iki.fi>
 */
 
-#include "Report.h"
-#include "arduino_planter_types.h"
 #include "Configuration.h"
 #include "ArduinoPlanterSetup.h"
 #include "Readings.h"
+#include "Report.h"
 
 ArduinoPlanterSetup planterSetup;
 Report report;
@@ -24,5 +23,6 @@ void loop() {
 	planterSetup.updateReadings(readings);
 
 	report.setReadings(&readings);
-	report.contents.printTo(Serial);
+	report.send();
+	delay(300);
 }

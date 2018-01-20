@@ -10,3 +10,10 @@ void Report::setReadings(readings_t * readings)
 	contents["lamp"] = readings->isLampOn;
 	contents["pump"] = readings->isPumpOn;
 }
+
+void Report::send()
+{
+	contents.printTo(Serial);
+	Serial.write("\r\n");
+	Serial.flush();
+}

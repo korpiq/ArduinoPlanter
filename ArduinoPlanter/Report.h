@@ -18,6 +18,7 @@ class Report
 public:
 	JsonObject & contents = jsonBuffer.createObject();
 	void setReadings(readings_t*);
+	void send();
 };
 
 #endif
