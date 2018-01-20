@@ -18,6 +18,7 @@ private:
 	arduino_planter_configuration_t * configuration;
 	bool isLampOn = false, isPumpOn = false;
 	void initSerial(int baudRate);
+	bool readWaterSensor(digital_in_t pin);
 
 public:
 	void init(arduino_planter_configuration_t&);

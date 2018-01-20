@@ -28,11 +28,16 @@ void ArduinoPlanterSetup::updateReadings(readings_t & readings)
 {
 	readings.time = millis();
 	readings.acidity = analogRead(configuration->acidity_pin);
-	readings.waterBottom = digitalRead(configuration->water_bottom_pin);
-	readings.waterTop = digitalRead(configuration->water_top_pin);
+	readings.waterBottom = readWaterSensor(configuration->water_bottom_pin);
+	readings.waterTop = readWaterSensor(configuration->water_top_pin);
 	readings.isLampOn = isLampOn;
 	readings.isPumpOn = isPumpOn;
 	readings.communication = Serial.available();
+}
+
+bool ArduinoPlanterSetup::readWaterSensor(digital_in_t pin)
+{
+	return digitalRead(pin) == configuration->water_sensor_value_when_wet;
 }
 
 void ArduinoPlanterSetup::setLamp(bool on)
