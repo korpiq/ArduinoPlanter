@@ -30,6 +30,21 @@ void loop() {
 	decider.updateDecisions(state, decisions);
 	report.setDecisions(&decisions);
 
+	execute_decisions(&decisions);
+
 	report.send();
 	delay(1000);
+}
+
+void execute_decisions(decisions_t * decisions)
+{
+	if (decisions->turn_lamp_switch.doThis)
+	{
+		planterSetup.setLamp(decisions->turn_lamp_switch.doThis == turn_on);
+	}
+
+	if (decisions->turn_pump_switch.doThis)
+	{
+		planterSetup.setPump(decisions->turn_pump_switch.doThis == turn_on);
+	}
 }
