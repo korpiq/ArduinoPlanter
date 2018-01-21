@@ -35,12 +35,20 @@ char const * Decider::reasonToTurnOffLamp(planter_state_t & state)
 
 char const * Decider::reasonToTurnOnLamp(planter_state_t & state)
 {
-	bool past_initial_delay =
-		state.lamp_start_time || (state.readings.time > configuration->lamp_delay_time);
-	bool full_cycle_since_last =
-		(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
+	if (state.lamp_start_time) // has been started before
+	{
+		bool full_cycle_since_last =
+			(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
 
-	return (past_initial_delay && full_cycle_since_last) ? "Timeout" : NULL;
+		return full_cycle_since_last ? "Time to turn lamp on again" : NULL;
+	}
+	else // wait for first start time
+	{
+		bool past_initial_delay =
+			(state.readings.time > configuration->lamp_delay_time);
+
+		return past_initial_delay ? "Past initial delay" : NULL;
+	}
 }
 
 void Decider::updatePumpDecision(planter_state_t & state, decision_t & decision)
@@ -68,10 +76,18 @@ char const * Decider::reasonToTurnOffWater(planter_state_t & state)
 
 char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 {
-	bool past_initial_delay =
-		state.pump_start_time || (state.readings.time > configuration->pump_delay_time);
-	bool full_cycle_since_last =
-		(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
+	if (state.pump_start_time) // has been started before
+	{
+		bool full_cycle_since_last =
+			(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
 
-	return (past_initial_delay && full_cycle_since_last) ? "Timeout" : NULL;
+		return full_cycle_since_last ? "Time to turn pump on again" : NULL;
+	}
+	else // wait for first start time
+	{
+		bool past_initial_delay =
+			state.pump_start_time || (state.readings.time > configuration->pump_delay_time);
+
+		return (past_initial_delay) ? "Past initial delay" : NULL;
+	}
 }
