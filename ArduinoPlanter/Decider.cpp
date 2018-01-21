@@ -35,10 +35,12 @@ char const * Decider::reasonToTurnOffLamp(planter_state_t & state)
 
 char const * Decider::reasonToTurnOnLamp(planter_state_t & state)
 {
-	return (
-		state.readings.time > configuration->lamp_delay_time &&
-		state.readings.time > state.pump_start_time + configuration->pump_cycle_time
-		) ? "Timeout" : NULL;
+	bool past_initial_delay =
+		state.lamp_start_time || (state.readings.time > configuration->lamp_delay_time);
+	bool full_cycle_since_last =
+		(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
+
+	return (past_initial_delay && full_cycle_since_last) ? "Timeout" : NULL;
 }
 
 void Decider::updatePumpDecision(planter_state_t & state, decision_t & decision)
@@ -59,16 +61,17 @@ char const * Decider::reasonToTurnOffWater(planter_state_t & state)
 {
 	return state.readings.waterOnTop ? "Too much water"
 		: !state.readings.waterOnBottom ? "Out of water"
-		: (state.readings.time > state.pump_start_time + configuration->pump_active_time) ? "Timeout"
+		: (state.readings.time - state.pump_start_time > configuration->pump_active_time) ?
+			"Timeout"
 		: NULL;
 }
 
 char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 {
 	bool past_initial_delay =
-		state.pump_start_time || state.readings.time > configuration->pump_delay_time;
+		state.pump_start_time || (state.readings.time > configuration->pump_delay_time);
 	bool full_cycle_since_last =
-		state.readings.time > state.pump_start_time + configuration->pump_cycle_time;
+		(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
 
 	return (past_initial_delay && full_cycle_since_last) ? "Timeout" : NULL;
 }
