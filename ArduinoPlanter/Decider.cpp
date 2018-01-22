@@ -29,7 +29,7 @@ void Decider::updateLampDecision(planter_state_t & state, decision_t & decision)
 char const * Decider::reasonToTurnOffLamp(planter_state_t & state)
 {
 	return (
-		state.readings.time > state.lamp_start_time + configuration->lamp_active_time
+		state.readings.time - state.lamp_start_time > configuration->lamp_active_time
 	) ? "Timeout" : NULL;
 }
 
@@ -69,13 +69,18 @@ char const * Decider::reasonToTurnOffWater(planter_state_t & state)
 {
 	return state.readings.waterOnTop ? "Too much water"
 		: !state.readings.waterOnBottom ? "Out of water"
-		: (state.readings.time - state.pump_start_time > configuration->pump_active_time) ?
+		: ((state.readings.time - state.pump_start_time) > configuration->pump_active_time) ?
 			"Timeout"
 		: NULL;
 }
 
 char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 {
+	if (!state.readings.waterLevelOk)
+	{
+		return NULL;
+	}
+
 	if (state.pump_start_time) // has been started before
 	{
 		bool full_cycle_since_last =

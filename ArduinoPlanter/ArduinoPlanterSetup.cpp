@@ -16,7 +16,7 @@ void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configura
 	pinMode(configuration.water_top_pin, INPUT);
 
 	pinMode(configuration.lamp_pin, OUTPUT);
-	pinMode(configuration.lamp_pin, OUTPUT);
+	pinMode(configuration.pump_pin, OUTPUT);
 
 	initSerial(configuration.serial_port_speed);
 }
@@ -45,11 +45,15 @@ void ArduinoPlanterSetup::updateReadings()
 
 	readings.time = millis();
 	readings.acidity = analogRead(configuration->acidity_pin);
+
 	readings.waterOnBottom = readWaterSensor(configuration->water_bottom_pin);
 	readings.waterOnTop = readWaterSensor(configuration->water_top_pin);
+	readings.waterLevelOk = readings.waterOnBottom && !readings.waterOnTop;
+
 	readings.isLampOn = isLampOn;
 	readings.isPumpOn = isPumpOn;
 	readings.communication = Serial.available();
+
 }
 
 bool ArduinoPlanterSetup::readWaterSensor(digital_in_t pin)
@@ -65,6 +69,9 @@ void ArduinoPlanterSetup::setLamp(bool on)
 
 void ArduinoPlanterSetup::setPump(bool on)
 {
-	digitalWrite(configuration->pump_pin, (isPumpOn = on) ? HIGH : LOW);
-	*(on ? &state->pump_start_time : &state->pump_stop_time) = millis();
+	if (state->readings.waterLevelOk || !on)
+	{
+		digitalWrite(configuration->pump_pin, (isPumpOn = on) ? HIGH : LOW);
+		*(on ? &state->pump_start_time : &state->pump_stop_time) = millis();
+	}
 }
