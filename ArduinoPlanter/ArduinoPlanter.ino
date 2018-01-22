@@ -4,6 +4,10 @@
  Author:	Kalle Hallivuori <korpiq@iki.fi>
 */
 
+#include <Adafruit_Sensor.h>
+#include <DHT_U.h>
+#include <DHT.h>
+
 #include "Configuration.h"
 #include "State.h"
 #include "ArduinoPlanterSetup.h"
@@ -48,6 +52,7 @@ void execute_decisions(decisions_t * decisions)
 	if (decisions->send_report.doThis)
 	{
 		report.setReadings(&state.readings);
+		report.setState(&state);
 		report.setDecisions(decisions);
 		report.send();
 		state.report_sent_time = state.readings.time;

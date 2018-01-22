@@ -34,6 +34,8 @@ typedef struct arduino_planter_configuration {
 	int serial_port_speed;
 
 	int water_sensor_value_when_wet;
+
+	int air_sensor_type;
 } arduino_planter_configuration_t;
 
 extern arduino_planter_configuration_t default_configuration;

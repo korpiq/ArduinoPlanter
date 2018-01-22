@@ -27,7 +27,8 @@ arduino_planter_configuration_t default_configuration = { // PRODUCTION configur
 	.communication_timeout = 3600000ul, // 1 hour
 
 	.serial_port_speed = 115200,
-	.water_sensor_value_when_wet = 1
+	.water_sensor_value_when_wet = 1,
+	.air_sensor_type = 22
 };
 
 #else
@@ -50,12 +51,13 @@ arduino_planter_configuration_t default_configuration = { // DEBUG configuration
 	.pump_delay_time = 30000ul,
 	.pump_active_time = 1000ul,
 
-	.air_read_interval = 2000ul, // every 2 seconds
+	.air_read_interval = 5000ul, // every 5 seconds
 	.report_interval = 5000ul, // every 5 seconds
 	.communication_timeout = 3600000ul, // 1 hour
 
 	.serial_port_speed = 115200,
-	.water_sensor_value_when_wet = 1
+	.water_sensor_value_when_wet = 1,
+	.air_sensor_type = 22
 };
 
 #endif

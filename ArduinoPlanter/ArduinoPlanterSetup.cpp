@@ -19,6 +19,9 @@ void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configura
 	pinMode(configuration.pump_pin, OUTPUT);
 
 	initSerial(configuration.serial_port_speed);
+
+	airSensor = new DHT(configuration.air_read_pin, configuration.air_sensor_type);
+	airSensor->begin();
 }
 
 void ArduinoPlanterSetup::initSerial(int baudRate)
@@ -37,6 +40,7 @@ void ArduinoPlanterSetup::initState(planter_state_t & state)
 	state.lamp_stop_time = 0;
 	state.pump_start_time = 0;
 	state.pump_stop_time = 0;
+	state.air_read_time = 0;
 	state.report_sent_time = 0;
 }
 
@@ -54,6 +58,17 @@ void ArduinoPlanterSetup::updateReadings()
 	readings.isLampOn = isLampOn;
 	readings.isPumpOn = isPumpOn;
 	readings.communication = Serial.available();
+
+	if ((readings.time - state->air_read_time) >= configuration->air_read_interval) {
+		readings.humidity = airSensor->readHumidity();
+		readings.temperature = airSensor->readTemperature();
+
+		int measure = analogRead(configuration->acidity_pin);
+		double voltage = 5 / 1024.0 * measure; // classic digital to voltage conversion
+		readings.acidity = 7 + ((2.5 - voltage) / 0.18); // 0-5V to PH range
+
+		state->air_read_time = readings.time;
+	}
 }
 
 bool ArduinoPlanterSetup::readWaterSensor(digital_in_t pin)

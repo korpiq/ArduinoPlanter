@@ -30,7 +30,7 @@ void Decider::updateLampDecision(planter_state_t & state, decision_t & decision)
 char const * Decider::reasonToTurnOffLamp(planter_state_t & state)
 {
 	return (
-		state.readings.time - state.lamp_start_time > configuration->lamp_active_time
+		(state.readings.time - state.lamp_start_time) > configuration->lamp_active_time
 	) ? "Timeout" : NULL;
 }
 

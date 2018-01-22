@@ -10,7 +10,7 @@
 #endif
 
 #include "ArduinoJson.h"
-#include "Readings.h"
+#include "State.h"
 #include "Decisions.h"
 
 class Report
@@ -20,6 +20,7 @@ public:
 	JsonObject & contents = jsonBuffer.createObject();
 	void setReadings(readings_t*);
 	void setDecisions(decisions_t * decisions);
+	void setState(planter_state_t * state);
 	void send();
 };
 

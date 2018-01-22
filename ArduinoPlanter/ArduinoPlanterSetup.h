@@ -9,6 +9,9 @@
 	#include "WProgram.h"
 #endif
 
+#include <DHT_U.h>
+#include <DHT.h>
+
 #include "Configuration.h"
 #include "State.h"
 
@@ -22,6 +25,7 @@ private:
 	void initState(planter_state_t&);
 	void initSerial(int baudRate);
 	bool readWaterSensor(digital_in_t pin);
+	DHT * airSensor;
 
 public:
 	void init(arduino_planter_configuration_t&, planter_state_t&);

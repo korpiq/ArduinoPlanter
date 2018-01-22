@@ -5,6 +5,8 @@ void Report::setReadings(readings_t * readings)
 {
 	contents["time"] = readings->time;
 	contents["acidity"] = readings->acidity;
+	contents["humidity"] = readings->humidity;
+	contents["temperature"] = readings->temperature;
 	contents["waterOnBottom"] = readings->waterOnBottom;
 	contents["waterOnTop"] = readings->waterOnTop;
 	contents["lamp"] = readings->isLampOn;
@@ -17,6 +19,15 @@ void Report::setDecisions(decisions_t * decisions)
 	contents["lamp_reason"] = decisions->turn_lamp_switch.reason;
 	contents["pump_decision"] = decisions->turn_pump_switch.doThis;
 	contents["pump_reason"] = decisions->turn_pump_switch.reason;
+}
+
+void Report::setState(planter_state_t * state)
+{
+	contents["lamp_started"] = state->lamp_start_time;
+	contents["lamp_stopped"] = state->lamp_stop_time;
+	contents["pump_started"] = state->pump_start_time;
+	contents["pump_stopped"] = state->pump_stop_time;
+	contents["air_read"] = state->air_read_time;
 }
 
 void Report::send()
