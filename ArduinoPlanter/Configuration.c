@@ -21,7 +21,7 @@ arduino_planter_configuration_t default_configuration = {
 	.pump_active_time = 1000ul, // 600000ul, // run for 10 minutes
 
 	.air_read_interval = 2000ul, // every 2 seconds
-	.report_interval = 2000ul, // every 2 seconds
+	.report_interval = 5000ul, // every 5 seconds
 	.communication_timeout = 3600000ul, // 1 hour
 
 	.serial_port_speed = 115200,

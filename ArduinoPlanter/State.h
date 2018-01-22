@@ -17,7 +17,8 @@ typedef struct planter_state {
 		lamp_start_time,
 		lamp_stop_time,
 		pump_start_time,
-		pump_stop_time;
+		pump_stop_time,
+		report_sent_time;
 } planter_state_t;
 
 #endif

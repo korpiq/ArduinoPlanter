@@ -37,6 +37,7 @@ void ArduinoPlanterSetup::initState(planter_state_t & state)
 	state.lamp_stop_time = 0;
 	state.pump_start_time = 0;
 	state.pump_stop_time = 0;
+	state.report_sent_time = 0;
 }
 
 void ArduinoPlanterSetup::updateReadings()
@@ -53,7 +54,6 @@ void ArduinoPlanterSetup::updateReadings()
 	readings.isLampOn = isLampOn;
 	readings.isPumpOn = isPumpOn;
 	readings.communication = Serial.available();
-
 }
 
 bool ArduinoPlanterSetup::readWaterSensor(digital_in_t pin)

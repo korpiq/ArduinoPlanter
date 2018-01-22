@@ -25,15 +25,12 @@ void setup() {
 // the loop function runs over and over again until power down or reset
 void loop() {
 	planterSetup.updateReadings();
-	report.setReadings(&state.readings);
 
 	decider.updateDecisions(state, decisions);
-	report.setDecisions(&decisions);
 
 	execute_decisions(&decisions);
 
-	report.send();
-	delay(1000);
+	delay(100);
 }
 
 void execute_decisions(decisions_t * decisions)
@@ -46,5 +43,13 @@ void execute_decisions(decisions_t * decisions)
 	if (decisions->turn_pump_switch.doThis)
 	{
 		planterSetup.setPump(decisions->turn_pump_switch.doThis == turn_on);
+	}
+
+	if (decisions->send_report.doThis)
+	{
+		report.setReadings(&state.readings);
+		report.setDecisions(decisions);
+		report.send();
+		state.report_sent_time = state.readings.time;
 	}
 }

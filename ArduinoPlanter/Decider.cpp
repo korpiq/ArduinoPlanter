@@ -10,6 +10,7 @@ void Decider::updateDecisions(planter_state_t & state, decisions_t & decisions)
 {
 	updateLampDecision(state, decisions.turn_lamp_switch);
 	updatePumpDecision(state, decisions.turn_pump_switch);
+	updateReportDecision(state, decisions.send_report);
 }
 
 void Decider::updateLampDecision(planter_state_t & state, decision_t & decision)
@@ -94,5 +95,24 @@ char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 			state.pump_start_time || (state.readings.time > configuration->pump_delay_time);
 
 		return (past_initial_delay) ? "Past initial delay" : NULL;
+	}
+}
+
+void Decider::updateReportDecision(planter_state_t & state, decision_t & decision)
+{
+	if (state.readings.communication)
+	{
+		decision.doThis = do_once;
+		decision.reason = "Communication request received";
+	}
+	else if ((state.readings.time - state.report_sent_time) > configuration->report_interval)
+	{
+		decision.doThis = do_once;
+		decision.reason = "Time to report";
+	}
+	else
+	{
+		decision.doThis = NULL;
+		decision.reason = NULL;
 	}
 }

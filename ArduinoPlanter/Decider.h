@@ -29,6 +29,7 @@ public:
 	void updateDecisions(planter_state_t&, decisions_t&);
 	void updateLampDecision(planter_state_t&, decision_t&);
 	void updatePumpDecision(planter_state_t&, decision_t&);
+	void updateReportDecision(planter_state_t&, decision_t&);
 };
 
 #endif
