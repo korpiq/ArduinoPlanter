@@ -2,7 +2,7 @@
 
 /* Values for planter configuration settings */
 
-#ifndef _DEBUG
+#ifndef VM_DEBUG
 
 arduino_planter_configuration_t default_configuration = { // PRODUCTION configuration
 	.acidity_pin = 0,
@@ -48,7 +48,7 @@ arduino_planter_configuration_t default_configuration = { // DEBUG configuration
 	.lamp_active_time = 8000ul,
 
 	.pump_cycle_time = 4000ul, // 4 second watering cycle
-	.pump_delay_time = 30000ul,
+	.pump_delay_time = 3000ul,
 	.pump_active_time = 1000ul,
 
 	.air_read_interval = 5000ul, // every 5 seconds
