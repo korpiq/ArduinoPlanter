@@ -39,17 +39,21 @@ void loop() {
 
 void execute_decisions(decisions_t * decisions)
 {
+	bool send_report = decisions->send_report.doThis;
+
 	if (decisions->turn_lamp_switch.doThis)
 	{
 		planterSetup.setLamp(decisions->turn_lamp_switch.doThis == turn_on);
+		send_report = true;
 	}
 
 	if (decisions->turn_pump_switch.doThis)
 	{
 		planterSetup.setPump(decisions->turn_pump_switch.doThis == turn_on);
+		send_report = true;
 	}
 
-	if (decisions->send_report.doThis)
+	if (send_report)
 	{
 		report.setReadings(&state.readings);
 		report.setState(&state);
