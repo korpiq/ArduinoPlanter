@@ -15,7 +15,12 @@ void Decider::updateDecisions(planter_state_t & state, decisions_t & decisions)
 
 void Decider::updateLampDecision(planter_state_t & state, decision_t & decision)
 {
-	if (state.readings.isLampOn)
+	if (state.input_result == LAMP)
+	{
+		decision.reason = "Request";
+		decision.doThis = state.readings.isLampOn ? turn_off : turn_on;
+	}
+	else if (state.readings.isLampOn)
 	{
 		decision.reason = reasonToTurnOffLamp(state);
 		decision.doThis = decision.reason ? turn_off : NULL;
@@ -54,7 +59,12 @@ char const * Decider::reasonToTurnOnLamp(planter_state_t & state)
 
 void Decider::updatePumpDecision(planter_state_t & state, decision_t & decision)
 {
-	if (state.readings.isPumpOn)
+	if (state.input_result == PUMP)
+	{
+		decision.reason = "Request";
+		decision.doThis = state.readings.isPumpOn ? turn_off : turn_on;
+	}
+	else if (state.readings.isPumpOn)
 	{
 		decision.reason = reasonToTurnOffWater(state);
 		decision.doThis = decision.reason ? turn_off : NULL;
@@ -100,10 +110,10 @@ char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 
 void Decider::updateReportDecision(planter_state_t & state, decision_t & decision)
 {
-	if (state.readings.communication)
+	if (state.input_result == REPORT)
 	{
 		decision.doThis = do_once;
-		decision.reason = "Communication request received";
+		decision.reason = "Request";
 	}
 	else if ((state.readings.time - state.report_sent_time) > configuration->report_interval)
 	{

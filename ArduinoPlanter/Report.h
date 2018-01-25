@@ -15,9 +15,8 @@
 
 class Report
 {
-	StaticJsonBuffer<500> jsonBuffer;
 public:
-	JsonObject & contents = jsonBuffer.createObject();
+	JsonObject * jsonObject = NULL;
 	void setReadings(readings_t*);
 	void setDecisions(decisions_t * decisions);
 	void setState(planter_state_t * state);

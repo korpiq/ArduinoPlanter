@@ -11,6 +11,15 @@
 
 #include "Readings.h"
 
+typedef enum input_result {
+	SILENT,
+	INVALID,
+	REPORT,
+	PUMP,
+	LAMP,
+	RECONFIGURED
+} input_result_t;
+
 typedef struct planter_state {
 	readings_t readings;
 	milliseconds_t
@@ -20,6 +29,7 @@ typedef struct planter_state {
 		pump_stop_time,
 		air_read_time,
 		report_sent_time;
+	input_result_t input_result;
 } planter_state_t;
 
 #endif

@@ -3,6 +3,10 @@
 
 #include "arduino_planter_types.h"
 
+// buffers are reserved on stack, sometimes on top of each other
+#define INPUT_BUFSIZ 200
+#define JSON_BUFSIZ  200
+
 /* Declaration of available planter configuration settings */
 
 typedef struct arduino_planter_configuration {
@@ -31,11 +35,10 @@ typedef struct arduino_planter_configuration {
 		report_interval,
 		communication_timeout;
 
-	int serial_port_speed;
-
-	int water_sensor_value_when_wet;
-
-	int air_sensor_type;
+	int
+		serial_port_speed,
+		water_sensor_value_when_wet,
+		air_sensor_type;
 } arduino_planter_configuration_t;
 
 extern arduino_planter_configuration_t default_configuration;
