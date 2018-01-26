@@ -2,7 +2,11 @@
 
 /* Values for planter configuration settings */
 
-#ifndef VM_DEBUG
+#ifdef VM_DEBUG
+#define _DEBUG
+#endif
+
+#ifndef _DEBUG
 
 arduino_planter_configuration_t default_configuration = { // PRODUCTION configuration
 	.acidity_pin = 0,
@@ -26,7 +30,7 @@ arduino_planter_configuration_t default_configuration = { // PRODUCTION configur
 	.report_interval = 60000ul, // every 1 minute
 	.communication_timeout = 3600000ul, // 1 hour
 
-	.serial_port_speed = 115200,
+	.serial_port_speed = 115200l,
 	.water_sensor_value_when_wet = 1,
 	.air_sensor_type = 22
 };
@@ -55,7 +59,7 @@ arduino_planter_configuration_t default_configuration = { // DEBUG configuration
 	.report_interval = 5000ul, // every 5 seconds
 	.communication_timeout = 3600000ul, // 1 hour
 
-	.serial_port_speed = 115200,
+	.serial_port_speed = 115200l,
 	.water_sensor_value_when_wet = 1,
 	.air_sensor_type = 22
 };

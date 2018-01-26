@@ -22,13 +22,12 @@ private:
 	planter_state_t * state;
 	bool isLampOn = false, isPumpOn = false;
 	void initDevice(arduino_planter_configuration_t&);
-	void initState(planter_state_t&);
-	void initSerial(int baudRate);
 	bool readWaterSensor(digital_in_t pin);
 	DHT * airSensor;
 
 public:
-	void init(arduino_planter_configuration_t&, planter_state_t&);
+	void init(arduino_planter_configuration_t&);
+	void initState(planter_state_t&);
 	void updateReadings();
 	void setLamp(bool on);
 	void setPump(bool on);

@@ -1,12 +1,9 @@
 #include "ArduinoPlanterSetup.h"
 
-void ArduinoPlanterSetup::init(arduino_planter_configuration_t & configuration, planter_state_t & state)
+void ArduinoPlanterSetup::init(arduino_planter_configuration_t & configuration)
 {
 	this->configuration = &configuration;
 	initDevice(configuration);
-
-	this->state = &state;
-	initState(state);
 }
 
 void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configuration)
@@ -18,30 +15,20 @@ void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configura
 	pinMode(configuration.lamp_pin, OUTPUT);
 	pinMode(configuration.pump_pin, OUTPUT);
 
-	initSerial(configuration.serial_port_speed);
-
 	airSensor = new DHT(configuration.air_read_pin, configuration.air_sensor_type);
 	airSensor->begin();
 }
 
-void ArduinoPlanterSetup::initSerial(int baudRate)
-{
-	// initialize only when not yet started to avoid hanging on begin
-	if (!Serial)
-	{
-		Serial.begin(baudRate);
-		while (!Serial); // wait for Serial to initialize
-	}
-}
-
 void ArduinoPlanterSetup::initState(planter_state_t & state)
 {
+	this->state = &state;
 	state.lamp_start_time = 0;
 	state.lamp_stop_time = 0;
 	state.pump_start_time = 0;
 	state.pump_stop_time = 0;
 	state.air_read_time = 0;
 	state.report_sent_time = 0;
+	state.input_result = SILENT;
 }
 
 void ArduinoPlanterSetup::updateReadings()

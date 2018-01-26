@@ -127,8 +127,8 @@ input_result Communicator::handleJson(char const * buffer)
 		}
 		else if (!strcmp("serial_port_speed", it->key))
 		{
-			configuration->serial_port_speed = (int)it->value;
-			result = RECONFIGURED;
+			Serial.println("Serial port may not be reconfigured.");
+			result = INVALID;
 		}
 		else if (!strcmp("water_sensor_value_when_wet", it->key))
 		{
