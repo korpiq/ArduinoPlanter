@@ -10,18 +10,18 @@
 #endif
 
 #include "ArduinoJson.h"
+#include "Configuration.h"
 #include "State.h"
 #include "Decisions.h"
 
 class Report
 {
 public:
-	JsonObject * jsonObject = NULL;
-	void setReadings(readings_t*);
-	void setDecisions(decisions_t * decisions);
-	void setState(planter_state_t * state);
-	void send();
+	void sendReadings(readings_t*);
+	void sendDecisions(decisions_t * decisions);
+	void sendState(planter_state_t * state);
+	void sendConfiguration(arduino_planter_configuration_t * configuration);
+	void send(JsonObject &);
 };
 
 #endif
-

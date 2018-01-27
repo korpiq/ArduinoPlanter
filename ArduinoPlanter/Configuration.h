@@ -4,8 +4,8 @@
 #include "arduino_planter_types.h"
 
 // buffers are reserved on stack, sometimes on top of each other
-#define INPUT_BUFSIZ 200
-#define JSON_BUFSIZ  200
+#define INPUT_BUFSIZ 300
+#define JSON_BUFSIZ  300
 
 /* Declaration of available planter configuration settings */
 

@@ -16,4 +16,5 @@ typedef struct decisions
 
 extern char const * turn_on;
 extern char const * turn_off;
-extern char const * do_once;
+extern char const * report_state;
+extern char const * report_configuration;

@@ -14,10 +14,11 @@
 typedef enum input_result {
 	SILENT,
 	INVALID,
-	REPORT,
 	PUMP,
 	LAMP,
-	RECONFIGURED
+	RECONFIGURED,
+	REPORT_CONFIGURATION,
+	REPORT_STATE
 } input_result_t;
 
 typedef struct planter_state {

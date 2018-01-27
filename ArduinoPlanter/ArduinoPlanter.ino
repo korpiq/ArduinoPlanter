@@ -61,7 +61,7 @@ void loop() {
 
 void execute_decisions(decisions_t * decisions)
 {
-	bool send_report = decisions->send_report.doThis;
+	bool send_report = decisions->send_report.doThis == report_state;
 
 	if (decisions->turn_lamp_switch.doThis)
 	{
@@ -75,15 +75,16 @@ void execute_decisions(decisions_t * decisions)
 		send_report = true;
 	}
 
+	if (decisions->send_report.doThis == report_configuration)
+	{
+		report.sendConfiguration(&default_configuration);
+	}
+
 	if (send_report)
 	{
-		StaticJsonBuffer<JSON_BUFSIZ> jsonBuffer;
-		report.jsonObject = &jsonBuffer.createObject();
-		report.setReadings(&state.readings);
-		report.setState(&state);
-		report.setDecisions(decisions);
-		report.send();
-		report.jsonObject = NULL;
+		report.sendReadings(&state.readings);
+		report.sendDecisions(decisions);
+		report.sendState(&state);
 		state.report_sent_time = state.readings.time;
 	}
 }
