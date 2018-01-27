@@ -110,14 +110,19 @@ char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 
 void Decider::updateReportDecision(planter_state_t & state, decision_t & decision)
 {
-	if (state.input_result == REPORT)
+	if (state.input_result == RECONFIGURED || state.input_result == REPORT_CONFIGURATION)
 	{
-		decision.doThis = do_once;
+		decision.doThis = report_configuration;
+		decision.reason = state.input_result == RECONFIGURED ? "Reconfigured" : "Request";
+	}
+	else if (state.input_result == REPORT_STATE)
+	{
+		decision.doThis = report_state;
 		decision.reason = "Request";
 	}
 	else if ((state.readings.time - state.report_sent_time) > configuration->report_interval)
 	{
-		decision.doThis = do_once;
+		decision.doThis = report_state;
 		decision.reason = "Time to report";
 	}
 	else

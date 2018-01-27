@@ -26,8 +26,10 @@ input_result Communicator::handleInput(char const * buffer)
 	{
 		case 'p': return PUMP;
 		case 'l': return LAMP;
+		case 'c': return REPORT_CONFIGURATION;
+		case 's':
 		case '\r':
-		case '\n': return REPORT;
+		case '\n': return REPORT_STATE;
 		case '{':
 			if (buffer[1]) // avoid hanging parser with sole '{'
 				return handleJson(buffer);
