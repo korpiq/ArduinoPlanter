@@ -55,7 +55,7 @@ void loop() {
 	planterSetup.updateReadings();
 	decider.updateDecisions(state, decisions);
 	execute_decisions(&decisions);
-	Serial.print(";"); // avoid hanging
+
 	delay(100);
 }
 
@@ -83,8 +83,8 @@ void execute_decisions(decisions_t * decisions)
 	if (send_report)
 	{
 		report.sendReadings(&state.readings);
-		report.sendState(&state);
 		report.sendDecisions(decisions);
+		report.sendState(&state);
 		state.report_sent_time = state.readings.time;
 	}
 }
