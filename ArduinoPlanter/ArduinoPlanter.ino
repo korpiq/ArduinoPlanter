@@ -59,32 +59,70 @@ void loop() {
 	delay(100);
 }
 
-void execute_decisions(decisions_t * decisions)
+void execute_decisions(const decisions_t * const decisions)
 {
-	bool send_report = decisions->send_report.doThis == report_state;
+	decision send_report = decisions->send_report;
 
-	if (decisions->turn_lamp_switch.doThis)
+	switch(decisions->turn_lamp_switch & 15)
 	{
-		planterSetup.setLamp(decisions->turn_lamp_switch.doThis == turn_on);
-		send_report = true;
+		case DO_TURN_ON:
+			planterSetup.setLamp(true);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_TURN_OFF:
+			planterSetup.setLamp(false);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_NOTHING:
+			break;
+		default:
+			Serial.print("Invalid decision for lamp: ");
+			Serial.println(decisions->turn_lamp_switch, 16);
 	}
 
-	if (decisions->turn_pump_switch.doThis)
+	switch (decisions->turn_pump_switch & 15)
 	{
-		planterSetup.setPump(decisions->turn_pump_switch.doThis == turn_on);
-		send_report = true;
+		case DO_TURN_ON:
+			planterSetup.setPump(true);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_TURN_OFF:
+			planterSetup.setPump(false);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_NOTHING:
+			break;
+		default:
+			Serial.print("Invalid decision for pump: ");
+			Serial.println(decisions->turn_pump_switch, 16);
 	}
 
-	if (decisions->send_report.doThis == report_configuration)
+	switch (decisions->send_report & 15)
 	{
-		report.sendConfiguration(&default_configuration);
+		case DO_REPORT_CONFIGURATION:
+			report.sendConfiguration(&default_configuration);
+			break;
+		case DO_REPORT_STATE: // handled through send_report below
+		case DO_NOTHING:
+			break;
+		default:
+			Serial.print("Invalid decision for report: ");
+			Serial.println(decisions->send_report, 16);
 	}
 
-	if (send_report)
+	switch (send_report & 15)
 	{
-		report.sendReadings(&state.readings);
-		report.sendDecisions(decisions);
-		report.sendState(&state);
-		state.report_sent_time = state.readings.time;
+		case DO_REPORT_CONFIGURATION: // handled above
+		case DO_NOTHING:
+			break;
+		case DO_REPORT_STATE: // handled through send_report below
+			report.sendReadings(&state.readings);
+			report.sendDecisions(decisions);
+			report.sendState(&state);
+			state.report_sent_time = state.readings.time;
+			break;
+		default:
+			Serial.print("Invalid decision for report: ");
+			Serial.println(send_report, 16);
 	}
 }

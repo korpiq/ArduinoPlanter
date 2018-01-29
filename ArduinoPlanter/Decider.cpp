@@ -8,88 +8,84 @@ void Decider::init(arduino_planter_configuration_t & configuration)
 
 void Decider::updateDecisions(planter_state_t & state, decisions_t & decisions)
 {
-	updateLampDecision(state, decisions.turn_lamp_switch);
-	updatePumpDecision(state, decisions.turn_pump_switch);
-	updateReportDecision(state, decisions.send_report);
+	decisions.turn_lamp_switch = updateLampDecision(state);
+	decisions.turn_pump_switch = updatePumpDecision(state);
+	decisions.send_report = updateReportDecision(state);
 }
 
-void Decider::updateLampDecision(planter_state_t & state, decision_t & decision)
+decision Decider::updateLampDecision(planter_state_t & state)
 {
 	if (state.input_result == LAMP)
 	{
-		decision.reason = "Request";
-		decision.doThis = state.readings.isLampOn ? turn_off : turn_on;
+		return state.readings.isLampOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
 	else if (state.readings.isLampOn)
 	{
-		decision.reason = reasonToTurnOffLamp(state);
-		decision.doThis = decision.reason ? turn_off : NULL;
+		return reasonToTurnOffLamp(state);
 	}
 	else
 	{
-		decision.reason = reasonToTurnOnLamp(state);
-		decision.doThis = decision.reason ? turn_on : NULL;
+		return reasonToTurnOnLamp(state);
 	}
 }
 
-char const * Decider::reasonToTurnOffLamp(planter_state_t & state)
+decision Decider::reasonToTurnOffLamp(planter_state_t & state)
 {
 	return (
 		(state.readings.time - state.lamp_start_time) > configuration->lamp_active_time
-	) ? "Timeout" : NULL;
+	) ? DECISION_TURN_OFF_BY_TIME : DECISION_NO_ACTION;
 }
 
-char const * Decider::reasonToTurnOnLamp(planter_state_t & state)
+decision Decider::reasonToTurnOnLamp(planter_state_t & state)
 {
 	if (state.lamp_start_time) // has been started before
 	{
 		bool full_cycle_since_last =
 			(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
 
-		return full_cycle_since_last ? "Time to turn lamp on again" : NULL;
+		return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_NO_ACTION;
 	}
 	else // wait for first start time
 	{
 		bool past_initial_delay =
 			(state.readings.time > configuration->lamp_delay_time);
 
-		return past_initial_delay ? "Past initial delay" : NULL;
+		return past_initial_delay ? DECISION_TURN_ON_BY_TIME : DECISION_NO_ACTION;
 	}
 }
 
-void Decider::updatePumpDecision(planter_state_t & state, decision_t & decision)
+decision Decider::updatePumpDecision(planter_state_t & state)
 {
 	if (state.input_result == PUMP)
 	{
-		decision.reason = "Request";
-		decision.doThis = state.readings.isPumpOn ? turn_off : turn_on;
+		return state.readings.isPumpOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
 	else if (state.readings.isPumpOn)
 	{
-		decision.reason = reasonToTurnOffWater(state);
-		decision.doThis = decision.reason ? turn_off : NULL;
+		return reasonToTurnOffWater(state);
 	}
 	else
 	{
-		decision.reason = reasonToTurnOnWater(state);
-		decision.doThis = decision.reason ? turn_on : NULL;
+		return reasonToTurnOnWater(state);
 	}
 }
 
-char const * Decider::reasonToTurnOffWater(planter_state_t & state)
+decision Decider::reasonToTurnOffWater(planter_state_t & state)
 {
-	return state.readings.waterOnTop ? "Too much water"
-		: !state.readings.waterOnBottom ? "Out of water"
+	return state.readings.waterOnTop ? DECISION_TURN_OFF_WHEN_WATER_HIGH
+		: !state.readings.waterOnBottom ? DECISION_TURN_OFF_WHEN_WATER_LOW
 		: ((state.readings.time - state.pump_start_time) > configuration->pump_active_time) ?
-			"Timeout"
-		: NULL;
+			DECISION_TURN_OFF_BY_TIME
+		: DECISION_NO_ACTION;
 }
 
-char const * Decider::reasonToTurnOnWater(planter_state_t & state)
+decision Decider::reasonToTurnOnWater(planter_state_t & state)
 {
 	if (!state.readings.waterLevelOk)
 	{
-		return NULL;
+		if (state.readings.waterOnTop)
+			return DECISION_KEEP_OFF_WHEN_HIGH;
+		return DECISION_KEEP_OFF_WHEN_HIGH;
 	}
 
 	if (state.pump_start_time) // has been started before
@@ -97,37 +93,37 @@ char const * Decider::reasonToTurnOnWater(planter_state_t & state)
 		bool full_cycle_since_last =
 			(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
 
-		return full_cycle_since_last ? "Time to turn pump on again" : NULL;
+		return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
 	}
 	else // wait for first start time
 	{
 		bool past_initial_delay =
 			state.pump_start_time || (state.readings.time > configuration->pump_delay_time);
 
-		return (past_initial_delay) ? "Past initial delay" : NULL;
+		return (past_initial_delay) ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
 	}
 }
 
-void Decider::updateReportDecision(planter_state_t & state, decision_t & decision)
+decision Decider::updateReportDecision(planter_state_t & state)
 {
-	if (state.input_result == RECONFIGURED || state.input_result == REPORT_CONFIGURATION)
+	if (state.input_result == RECONFIGURED)
 	{
-		decision.doThis = report_configuration;
-		decision.reason = state.input_result == RECONFIGURED ? "Reconfigured" : "Request";
+		return DECISION_REPORT_CONFIGURATION_WHEN_CHANGING;
+	}
+	else if(state.input_result == REPORT_CONFIGURATION)
+	{
+		return DECISION_REPORT_CONFIGURATION_ON_REQUEST;
 	}
 	else if (state.input_result == REPORT_STATE)
 	{
-		decision.doThis = report_state;
-		decision.reason = "Request";
+		return DECISION_REPORT_STATE_ON_REQUEST;
 	}
 	else if ((state.readings.time - state.report_sent_time) > configuration->report_interval)
 	{
-		decision.doThis = report_state;
-		decision.reason = "Time to report";
+		return DECISION_REPORT_STATE_ON_TIME;
 	}
 	else
 	{
-		decision.doThis = NULL;
-		decision.reason = NULL;
+		return DECISION_NO_ACTION;
 	}
 }

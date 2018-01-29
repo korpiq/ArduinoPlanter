@@ -18,19 +18,18 @@ class Decider
 private:
 	arduino_planter_configuration_t * configuration;
 
-	char const * reasonToTurnOnLamp(planter_state_t & state);
-	char const * reasonToTurnOffLamp(planter_state_t & state);
+	decision reasonToTurnOnLamp(planter_state_t & state);
+	decision reasonToTurnOffLamp(planter_state_t & state);
 
-	char const * reasonToTurnOnWater(planter_state_t & state);
-	char const * reasonToTurnOffWater(planter_state_t & state);
+	decision reasonToTurnOnWater(planter_state_t & state);
+	decision reasonToTurnOffWater(planter_state_t & state);
 
 public:
 	void init(arduino_planter_configuration_t&);
 	void updateDecisions(planter_state_t&, decisions_t&);
-	void updateLampDecision(planter_state_t&, decision_t&);
-	void updatePumpDecision(planter_state_t&, decision_t&);
-	void updateReportDecision(planter_state_t&, decision_t&);
+	decision updateLampDecision(planter_state_t&);
+	decision updatePumpDecision(planter_state_t&);
+	decision updateReportDecision(planter_state_t&);
 };
 
 #endif
-
