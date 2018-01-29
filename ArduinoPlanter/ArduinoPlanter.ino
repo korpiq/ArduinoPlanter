@@ -59,28 +59,48 @@ void loop() {
 	delay(100);
 }
 
-void execute_decisions(decisions_t * decisions)
+void execute_decisions(const decisions_t * const decisions)
 {
-	bool send_report = decisions->send_report.doThis == report_state;
+	decision send_report = decisions->send_report;
 
-	if (decisions->turn_lamp_switch.doThis)
+	switch(decisions->turn_lamp_switch & 15)
 	{
-		planterSetup.setLamp(decisions->turn_lamp_switch.doThis == turn_on);
-		send_report = true;
+		case DO_TURN_ON:
+			planterSetup.setLamp(true);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_TURN_OFF:
+			planterSetup.setLamp(false);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_NOTHING:
+			break;
+		default: // TODO: result "lamp": "invalid operation"
+			break;
 	}
 
-	if (decisions->turn_pump_switch.doThis)
+	switch (decisions->turn_pump_switch & 15)
 	{
-		planterSetup.setPump(decisions->turn_pump_switch.doThis == turn_on);
-		send_report = true;
+		case DO_TURN_ON:
+			planterSetup.setPump(true);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_TURN_OFF:
+			planterSetup.setPump(false);
+			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			break;
+		case DO_NOTHING:
+			break;
+		default: // TODO: result "pump": "invalid operation"
+			break;
 	}
 
-	if (decisions->send_report.doThis == report_configuration)
+	if (decisions->send_report & 15 == REPORT_CONFIGURATION)
 	{
 		report.sendConfiguration(&default_configuration);
 	}
 
-	if (send_report)
+	if (send_report & 15 != DO_NOTHING)
 	{
 		report.sendReadings(&state.readings);
 		report.sendDecisions(decisions);

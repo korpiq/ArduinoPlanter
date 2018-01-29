@@ -18,15 +18,28 @@ void Report::sendReadings(readings_t * readings)
 	send(contents);
 }
 
-void Report::sendDecisions(decisions_t * decisions)
+void Report::sendDecisions(const decisions_t * const decisions)
 {
 	StaticJsonBuffer<JSON_BUFSIZ> jsonBuffer;
 	JsonObject & contents = jsonBuffer.createObject();
 
-	contents["lamp_decision"] = decisions->turn_lamp_switch.doThis;
-	contents["lamp_reason"] = decisions->turn_lamp_switch.reason;
-	contents["pump_decision"] = decisions->turn_pump_switch.doThis;
-	contents["pump_reason"] = decisions->turn_pump_switch.reason;
+	if (decisions->turn_lamp_switch)
+	{
+		contents["lamp_action"] = action_names[decisions->turn_lamp_switch & 15];
+		contents["lamp_reason"] = reason_descriptions[decisions->turn_lamp_switch >> 4];
+	}
+
+	if (decisions->turn_pump_switch)
+	{
+		contents["pump_action"] = action_names[decisions->turn_lamp_switch & 15];
+		contents["pump_reason"] = reason_descriptions[decisions->turn_lamp_switch >> 4];
+	}
+
+	if (decisions->send_report)
+	{
+		contents["send_action"] = action_names[decisions->send_report & 15];
+		contents["send_reason"] = reason_descriptions[decisions->send_report >> 4];
+	}
 
 	send(contents);
 }

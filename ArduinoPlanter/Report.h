@@ -18,7 +18,7 @@ class Report
 {
 public:
 	void sendReadings(readings_t*);
-	void sendDecisions(decisions_t * decisions);
+	void sendDecisions(const decisions_t * const decisions);
 	void sendState(planter_state_t * state);
 	void sendConfiguration(arduino_planter_configuration_t * configuration);
 	void send(JsonObject &);

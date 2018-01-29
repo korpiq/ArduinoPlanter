@@ -103,7 +103,7 @@
     <ClCompile Include="Configuration.c" />
     <ClCompile Include="ArduinoPlanterSetup.cpp" />
     <ClCompile Include="Decider.cpp" />
-    <ClCompile Include="Decisions.c" />
+    <ClCompile Include="Decisions.cpp" />
     <ClCompile Include="Report.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
