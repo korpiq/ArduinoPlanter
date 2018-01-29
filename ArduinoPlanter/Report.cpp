@@ -31,8 +31,8 @@ void Report::sendDecisions(const decisions_t * const decisions)
 
 	if (decisions->turn_pump_switch)
 	{
-		contents["pump_action"] = action_names[decisions->turn_lamp_switch & 15];
-		contents["pump_reason"] = reason_descriptions[decisions->turn_lamp_switch >> 4];
+		contents["pump_action"] = action_names[decisions->turn_pump_switch & 15];
+		contents["pump_reason"] = reason_descriptions[decisions->turn_pump_switch >> 4];
 	}
 
 	if (decisions->send_report)
