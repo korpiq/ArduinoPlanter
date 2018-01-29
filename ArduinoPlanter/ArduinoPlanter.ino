@@ -75,8 +75,9 @@ void execute_decisions(const decisions_t * const decisions)
 			break;
 		case DO_NOTHING:
 			break;
-		default: // TODO: result "lamp": "invalid operation"
-			break;
+		default:
+			Serial.print("Invalid decision for lamp: ");
+			Serial.println(decisions->turn_lamp_switch, 16);
 	}
 
 	switch (decisions->turn_pump_switch & 15)
@@ -91,20 +92,37 @@ void execute_decisions(const decisions_t * const decisions)
 			break;
 		case DO_NOTHING:
 			break;
-		default: // TODO: result "pump": "invalid operation"
+		default:
+			Serial.print("Invalid decision for pump: ");
+			Serial.println(decisions->turn_pump_switch, 16);
+	}
+
+	switch (decisions->send_report & 15)
+	{
+		case DO_REPORT_CONFIGURATION:
+			report.sendConfiguration(&default_configuration);
 			break;
+		case DO_REPORT_STATE: // handled through send_report below
+		case DO_NOTHING:
+			break;
+		default:
+			Serial.print("Invalid decision for report: ");
+			Serial.println(decisions->send_report, 16);
 	}
 
-	if (decisions->send_report & 15 == REPORT_CONFIGURATION)
+	switch (send_report & 15)
 	{
-		report.sendConfiguration(&default_configuration);
-	}
-
-	if (send_report & 15 != DO_NOTHING)
-	{
-		report.sendReadings(&state.readings);
-		report.sendDecisions(decisions);
-		report.sendState(&state);
-		state.report_sent_time = state.readings.time;
+		case DO_REPORT_CONFIGURATION: // handled above
+		case DO_NOTHING:
+			break;
+		case DO_REPORT_STATE: // handled through send_report below
+			report.sendReadings(&state.readings);
+			report.sendDecisions(decisions);
+			report.sendState(&state);
+			state.report_sent_time = state.readings.time;
+			break;
+		default:
+			Serial.print("Invalid decision for report: ");
+			Serial.println(send_report, 16);
 	}
 }
