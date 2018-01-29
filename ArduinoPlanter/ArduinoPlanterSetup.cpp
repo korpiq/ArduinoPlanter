@@ -22,12 +22,12 @@ void ArduinoPlanterSetup::initDevice(arduino_planter_configuration_t & configura
 void ArduinoPlanterSetup::initState(planter_state_t & state)
 {
 	this->state = &state;
-	state.lamp_start_time = 0;
+	state.lamp_start_time = configuration->startup_delay - configuration->lamp_cycle_time;
 	state.lamp_stop_time = 0;
-	state.pump_start_time = 0;
+	state.pump_start_time = configuration->startup_delay - configuration->pump_cycle_time;
 	state.pump_stop_time = 0;
-	state.air_read_time = 0;
-	state.report_sent_time = 0;
+	state.air_read_time = configuration->startup_delay - configuration->air_read_interval;
+	state.report_sent_time = -configuration->report_interval;
 	state.input_result = SILENT;
 }
 

@@ -39,20 +39,10 @@ decision Decider::reasonToTurnOffLamp(planter_state_t & state)
 
 decision Decider::reasonToTurnOnLamp(planter_state_t & state)
 {
-	if (state.lamp_start_time) // has been started before
-	{
-		bool full_cycle_since_last =
-			(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
+	bool full_cycle_since_last =
+		(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
 
-		return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
-	}
-	else // wait for first start time
-	{
-		bool past_initial_delay =
-			(state.readings.time > configuration->lamp_delay_time);
-
-		return past_initial_delay ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
-	}
+	return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
 }
 
 decision Decider::updatePumpDecision(planter_state_t & state)
@@ -84,25 +74,15 @@ decision Decider::reasonToTurnOnWater(planter_state_t & state)
 {
 	if (!state.readings.waterLevelOk)
 	{
-		if (state.readings.waterOnTop)
-			return DECISION_KEEP_OFF_WHEN_HIGH;
-		return DECISION_KEEP_OFF_WHEN_HIGH;
+		return state.readings.waterOnTop ?
+			DECISION_KEEP_OFF_WHEN_HIGH
+			: DECISION_KEEP_OFF_WHEN_LOW;
 	}
 
-	if (state.pump_start_time) // has been started before
-	{
-		bool full_cycle_since_last =
-			(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
+	bool full_cycle_since_last =
+		(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
 
-		return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
-	}
-	else // wait for first start time
-	{
-		bool past_initial_delay =
-			state.pump_start_time || (state.readings.time > configuration->pump_delay_time);
-
-		return (past_initial_delay) ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
-	}
+	return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
 }
 
 decision Decider::updateStateReportDecision(planter_state_t & state)

@@ -76,14 +76,13 @@ void Report::sendConfiguration(arduino_planter_configuration_t * configuration)
 	contents["lamp_pin"] = configuration->lamp_pin;
 	contents["pump_pin"] = configuration->pump_pin;
 	contents["lamp_cycle_time"] = configuration->lamp_cycle_time;
-	contents["lamp_delay_time"] = configuration->lamp_delay_time;
 	contents["lamp_active_time"] = configuration->lamp_active_time;
 	contents["pump_cycle_time"] = configuration->pump_cycle_time;
-	contents["pump_delay_time"] = configuration->pump_delay_time;
 	contents["pump_active_time"] = configuration->pump_active_time;
 	contents["air_read_interval"] = configuration->air_read_interval;
 	contents["report_interval"] = configuration->report_interval;
 	contents["communication_timeout"] = configuration->communication_timeout;
+	contents["startup_delay"] = configuration->startup_delay;
 	contents["serial_port_speed"] = configuration->serial_port_speed;
 	contents["water_sensor_value_when_wet"] = configuration->water_sensor_value_when_wet;
 	contents["air_sensor_type"] = configuration->air_sensor_type;

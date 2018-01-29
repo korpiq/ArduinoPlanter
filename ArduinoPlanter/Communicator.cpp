@@ -87,11 +87,6 @@ input_result Communicator::handleJson(char const * buffer)
 			configuration->lamp_cycle_time = (milliseconds_t)it->value;
 			result = RECONFIGURED;
 		}
-		else if (!strcmp("lamp_delay_time", it->key))
-		{
-			configuration->lamp_delay_time = (milliseconds_t)it->value;
-			result = RECONFIGURED;
-		}
 		else if (!strcmp("lamp_active_time", it->key))
 		{
 			configuration->lamp_active_time = (milliseconds_t)it->value;
@@ -100,11 +95,6 @@ input_result Communicator::handleJson(char const * buffer)
 		else if (!strcmp("pump_cycle_time", it->key))
 		{
 			configuration->pump_cycle_time = (milliseconds_t)it->value;
-			result = RECONFIGURED;
-		}
-		else if (!strcmp("pump_delay_time", it->key))
-		{
-			configuration->pump_delay_time = (milliseconds_t)it->value;
 			result = RECONFIGURED;
 		}
 		else if (!strcmp("pump_active_time", it->key))
@@ -125,6 +115,11 @@ input_result Communicator::handleJson(char const * buffer)
 		else if (!strcmp("communication_timeout", it->key))
 		{
 			configuration->communication_timeout = (milliseconds_t)it->value;
+			result = RECONFIGURED;
+		}
+		else if (!strcmp("startup_delay", it->key))
+		{
+			configuration->startup_delay = (milliseconds_t)it->value;
 			result = RECONFIGURED;
 		}
 		else if (!strcmp("serial_port_speed", it->key))

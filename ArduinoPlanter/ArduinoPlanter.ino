@@ -31,10 +31,6 @@ void setup() {
 	communicator.init(default_configuration, state);
 
 	Serial.begin(default_configuration.serial_port_speed);
-	if (Serial.availableForWrite())
-	{
-		Serial.println("ArduinoPlanter started.");
-	}
 }
 
 // the loop function runs over and over again until power down or reset
@@ -43,9 +39,7 @@ void loop() {
 
 	if (state.input_result == RECONFIGURED)
 	{
-		Serial.println("Reconfiguring...");
 		planterSetup.init(default_configuration);
-		Serial.println("Reconfigured.");
 	}
 	else if (state.input_result == INVALID)
 	{
@@ -110,7 +104,7 @@ void execute_decisions(const decisions_t * const decisions)
 
 	switch (report_state & 15)
 	{
-		case DO_SEND_REPORT: // handled through send_report below
+		case DO_SEND_REPORT:
 			report.sendReadings(&state.readings);
 			report.sendDecisions(decisions);
 			report.sendState(&state);

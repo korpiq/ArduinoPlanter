@@ -13,16 +13,15 @@ arduino_planter_configuration_t default_configuration = {
 	.pump_pin = 3,
 
 	.lamp_cycle_time = 86400000ul, // every 24 hours
-	.lamp_delay_time = 5000ul, // activate after 5 seconds
 	.lamp_active_time = 57600000ul, // show light for 16 hours
 
 	.pump_cycle_time = 21600000ul, // every 6 hours
-	.pump_delay_time = 5000ul, // activate after 5 seconds
 	.pump_active_time = 600000ul, // run for 10 minutes at most
 
 	.air_read_interval = 2000ul, // every 2 seconds
 	.report_interval = 60000ul, // every 1 minute
 	.communication_timeout = 3600000ul, // 1 hour
+	.startup_delay = 3000ul, // 3 seconds
 
 	.serial_port_speed = 115200l,
 	.water_sensor_value_when_wet = 0,

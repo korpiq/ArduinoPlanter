@@ -24,16 +24,15 @@ typedef struct arduino_planter_configuration {
 
 	milliseconds_t
 		lamp_cycle_time,
-		lamp_delay_time,
 		lamp_active_time,
 
 		pump_cycle_time,
-		pump_delay_time,
 		pump_active_time,
 
 		air_read_interval,
 		report_interval,
-		communication_timeout;
+		communication_timeout,
+		startup_delay;
 
 	long
 		serial_port_speed;
