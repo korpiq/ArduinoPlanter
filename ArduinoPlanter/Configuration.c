@@ -25,7 +25,7 @@ arduino_planter_configuration_t default_configuration = {
 	.communication_timeout = 3600000ul, // 1 hour
 
 	.serial_port_speed = 115200l,
-	.water_sensor_value_when_wet = 1,
+	.water_sensor_value_when_wet = 0,
 	.air_sensor_type = 22
 };
 
