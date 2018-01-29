@@ -27,7 +27,7 @@ Unrecognized keys will be ignored with a warning.
 
 Send commands over serial line (USB):
 
- - Enter (CR/LF aka '\r' or '\n'): immediate status report
- - 'p': switch pump state (on <-> off)
- - 'l': switch lamp state (on <-> off)
  - 'c': report configuration.
+ - 's': report status.
+ - 'p': switch pump state (on <-> off).
+ - 'l': switch lamp state (on <-> off).
