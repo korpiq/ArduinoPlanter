@@ -28,4 +28,3 @@ arduino_planter_configuration_t default_configuration = {
 	.water_sensor_value_when_wet = 0,
 	.air_sensor_type = 22
 };
-

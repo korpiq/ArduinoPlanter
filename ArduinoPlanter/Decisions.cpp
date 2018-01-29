@@ -3,16 +3,14 @@
 const char * const action_nothing = "inaction";
 const char * const action_on = "turn on";
 const char * const action_off = "turn off";
-const char * const action_state = "report state";
-const char * const action_conf = "report configuration";
+const char * const action_send = "send report";
 
 const char * const action_names[NUMBER_OF_ACTIONS] =
 {
 	action_nothing,
 	action_on,
 	action_off,
-	action_state,
-	action_conf
+	action_send
 };
 
 const char * const reason_ok = "Ok";

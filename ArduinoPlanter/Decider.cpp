@@ -10,7 +10,8 @@ void Decider::updateDecisions(planter_state_t & state, decisions_t & decisions)
 {
 	decisions.turn_lamp_switch = updateLampDecision(state);
 	decisions.turn_pump_switch = updatePumpDecision(state);
-	decisions.send_report = updateReportDecision(state);
+	decisions.report_state = updateStateReportDecision(state);
+	decisions.report_configuration = updateConfigurationReportDecision(state);
 }
 
 decision Decider::updateLampDecision(planter_state_t & state)
@@ -33,7 +34,7 @@ decision Decider::reasonToTurnOffLamp(planter_state_t & state)
 {
 	return (
 		(state.readings.time - state.lamp_start_time) > configuration->lamp_active_time
-	) ? DECISION_TURN_OFF_BY_TIME : DECISION_NO_ACTION;
+	) ? DECISION_TURN_OFF_BY_TIME : DECISION_WAIT;
 }
 
 decision Decider::reasonToTurnOnLamp(planter_state_t & state)
@@ -43,14 +44,14 @@ decision Decider::reasonToTurnOnLamp(planter_state_t & state)
 		bool full_cycle_since_last =
 			(state.readings.time - state.lamp_start_time) > configuration->lamp_cycle_time;
 
-		return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_NO_ACTION;
+		return full_cycle_since_last ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
 	}
 	else // wait for first start time
 	{
 		bool past_initial_delay =
 			(state.readings.time > configuration->lamp_delay_time);
 
-		return past_initial_delay ? DECISION_TURN_ON_BY_TIME : DECISION_NO_ACTION;
+		return past_initial_delay ? DECISION_TURN_ON_BY_TIME : DECISION_WAIT;
 	}
 }
 
@@ -76,7 +77,7 @@ decision Decider::reasonToTurnOffWater(planter_state_t & state)
 		: !state.readings.waterOnBottom ? DECISION_TURN_OFF_WHEN_WATER_LOW
 		: ((state.readings.time - state.pump_start_time) > configuration->pump_active_time) ?
 			DECISION_TURN_OFF_BY_TIME
-		: DECISION_NO_ACTION;
+		: DECISION_WAIT;
 }
 
 decision Decider::reasonToTurnOnWater(planter_state_t & state)
@@ -104,26 +105,26 @@ decision Decider::reasonToTurnOnWater(planter_state_t & state)
 	}
 }
 
-decision Decider::updateReportDecision(planter_state_t & state)
+decision Decider::updateStateReportDecision(planter_state_t & state)
 {
-	if (state.input_result == RECONFIGURED)
+	if (state.input_result == REPORT_STATE)
 	{
-		return DECISION_REPORT_CONFIGURATION_WHEN_CHANGING;
-	}
-	else if(state.input_result == REPORT_CONFIGURATION)
-	{
-		return DECISION_REPORT_CONFIGURATION_ON_REQUEST;
-	}
-	else if (state.input_result == REPORT_STATE)
-	{
-		return DECISION_REPORT_STATE_ON_REQUEST;
+		return DECISION_REPORT_ON_REQUEST;
 	}
 	else if ((state.readings.time - state.report_sent_time) > configuration->report_interval)
 	{
-		return DECISION_REPORT_STATE_ON_TIME;
+		return DECISION_REPORT_ON_TIME;
 	}
 	else
 	{
 		return DECISION_NO_ACTION;
 	}
+}
+
+decision Decider::updateConfigurationReportDecision(planter_state_t & state)
+{
+	return
+		state.input_result == RECONFIGURED ? DECISION_REPORT_WHEN_CHANGING
+		: state.input_result == REPORT_CONFIGURATION ? DECISION_REPORT_ON_REQUEST
+		: DECISION_NO_ACTION;
 }

@@ -35,10 +35,16 @@ void Report::sendDecisions(const decisions_t * const decisions)
 		contents["pump_reason"] = reason_descriptions[decisions->turn_pump_switch >> 4];
 	}
 
-	if (decisions->send_report)
+	if (decisions->report_state)
 	{
-		contents["send_action"] = action_names[decisions->send_report & 15];
-		contents["send_reason"] = reason_descriptions[decisions->send_report >> 4];
+		contents["state_action"] = action_names[decisions->report_state & 15];
+		contents["state_reason"] = reason_descriptions[decisions->report_state >> 4];
+	}
+
+	if (decisions->report_configuration)
+	{
+		contents["configuration_action"] = action_names[decisions->report_configuration & 15];
+		contents["configuration_reason"] = reason_descriptions[decisions->report_configuration >> 4];
 	}
 
 	send(contents);

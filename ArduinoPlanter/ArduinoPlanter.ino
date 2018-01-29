@@ -61,17 +61,17 @@ void loop() {
 
 void execute_decisions(const decisions_t * const decisions)
 {
-	decision send_report = decisions->send_report;
+	decision report_state = decisions->report_state;
 
 	switch(decisions->turn_lamp_switch & 15)
 	{
 		case DO_TURN_ON:
 			planterSetup.setLamp(true);
-			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			report_state = DECISION_REPORT_WHEN_CHANGING;
 			break;
 		case DO_TURN_OFF:
 			planterSetup.setLamp(false);
-			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			report_state = DECISION_REPORT_WHEN_CHANGING;
 			break;
 		case DO_NOTHING:
 			break;
@@ -84,11 +84,11 @@ void execute_decisions(const decisions_t * const decisions)
 	{
 		case DO_TURN_ON:
 			planterSetup.setPump(true);
-			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			report_state = DECISION_REPORT_WHEN_CHANGING;
 			break;
 		case DO_TURN_OFF:
 			planterSetup.setPump(false);
-			send_report = DECISION_REPORT_STATE_WHEN_CHANGING;
+			report_state = DECISION_REPORT_WHEN_CHANGING;
 			break;
 		case DO_NOTHING:
 			break;
@@ -97,32 +97,28 @@ void execute_decisions(const decisions_t * const decisions)
 			Serial.println(decisions->turn_pump_switch, 16);
 	}
 
-	switch (decisions->send_report & 15)
+	switch (decisions->report_configuration & 15)
 	{
-		case DO_REPORT_CONFIGURATION:
+		case DO_SEND_REPORT:
 			report.sendConfiguration(&default_configuration);
-			break;
-		case DO_REPORT_STATE: // handled through send_report below
 		case DO_NOTHING:
 			break;
 		default:
-			Serial.print("Invalid decision for report: ");
-			Serial.println(decisions->send_report, 16);
+			Serial.print("Invalid decision for configuration report: ");
+			Serial.println(decisions->report_configuration, 16);
 	}
 
-	switch (send_report & 15)
+	switch (report_state & 15)
 	{
-		case DO_REPORT_CONFIGURATION: // handled above
-		case DO_NOTHING:
-			break;
-		case DO_REPORT_STATE: // handled through send_report below
+		case DO_SEND_REPORT: // handled through send_report below
 			report.sendReadings(&state.readings);
 			report.sendDecisions(decisions);
 			report.sendState(&state);
 			state.report_sent_time = state.readings.time;
+		case DO_NOTHING:
 			break;
 		default:
 			Serial.print("Invalid decision for report: ");
-			Serial.println(send_report, 16);
+			Serial.println(report_state, 16);
 	}
 }
