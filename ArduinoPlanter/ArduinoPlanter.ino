@@ -37,13 +37,18 @@ void setup() {
 void loop() {
 	communicator.listen();
 
-	if (state.input_result == RECONFIGURED)
+	switch (state.input_result)
 	{
-		planterSetup.init(default_configuration);
-	}
-	else if (state.input_result == INVALID)
-	{
-		Serial.println("Invalid input.");
+		case RECONFIGURED:
+			planterSetup.init(default_configuration);
+			break;
+		case ONLINE_MODE:
+			state.online_mode_time = state.readings.time;
+			break;
+		case INVALID:
+			Serial.println("Invalid input.");
+		default:
+			break;
 	}
 
 	planterSetup.updateReadings();

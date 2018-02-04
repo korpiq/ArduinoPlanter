@@ -15,6 +15,7 @@ const char * const action_names[NUMBER_OF_ACTIONS] =
 
 const char * const reason_ok = "Ok";
 const char * const reason_request = "Request";
+const char * const reason_online = "Waiting for command";
 const char * const reason_time = "Time";
 const char * const reason_low = "Water low";
 const char * const reason_high = "Water high";
@@ -24,6 +25,7 @@ const char * const reason_descriptions[NUMBER_OF_REASONS] =
 {
 	reason_ok,
 	reason_request,
+	reason_online,
 	reason_time,
 	reason_low,
 	reason_high,

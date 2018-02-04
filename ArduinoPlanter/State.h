@@ -18,7 +18,8 @@ typedef enum input_result {
 	LAMP,
 	RECONFIGURED,
 	REPORT_CONFIGURATION,
-	REPORT_STATE
+	REPORT_STATE,
+	ONLINE_MODE
 } input_result_t;
 
 typedef struct planter_state {
@@ -29,7 +30,8 @@ typedef struct planter_state {
 		pump_start_time,
 		pump_stop_time,
 		air_read_time,
-		report_sent_time;
+		report_sent_time,
+		online_mode_time;
 	input_result_t input_result;
 } planter_state_t;
 

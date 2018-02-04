@@ -27,12 +27,13 @@ input_result Communicator::handleInput(char const * buffer)
 		case 'p': return PUMP;
 		case 'l': return LAMP;
 		case 'c': return REPORT_CONFIGURATION;
-		case 's':
-		case '\r':
-		case '\n': return REPORT_STATE;
+		case 's': return REPORT_STATE;
+		case 'o': return ONLINE_MODE;
 		case '{':
 			if (buffer[1]) // avoid hanging parser with sole '{'
 				return handleJson(buffer);
+		case '\r':
+		case '\n': return SILENT;
 		default:
 			return INVALID;
 	}

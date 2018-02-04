@@ -20,6 +20,10 @@ decision Decider::updateLampDecision(planter_state_t & state)
 	{
 		return state.readings.isLampOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
+	else if ((state.readings.time - state.online_mode_time) < configuration->communication_timeout)
+	{
+		return DECISION_WAIT_FOR_COMMAND;
+	}
 	else if (state.readings.isLampOn)
 	{
 		return reasonToTurnOffLamp(state);
@@ -47,9 +51,25 @@ decision Decider::reasonToTurnOnLamp(planter_state_t & state)
 
 decision Decider::updatePumpDecision(planter_state_t & state)
 {
-	if (state.input_result == PUMP)
+	if (state.readings.waterOnTop) // ride over troubled water
+	{
+		return state.readings.isPumpOn ?
+			DECISION_TURN_OFF_WHEN_WATER_HIGH
+			: DECISION_KEEP_OFF_WHEN_HIGH;
+	}
+	else if (! state.readings.waterOnBottom)
+	{
+		return state.readings.isPumpOn ?
+			DECISION_TURN_OFF_WHEN_WATER_LOW
+			: DECISION_KEEP_OFF_WHEN_LOW;
+	}
+	else if (state.input_result == PUMP)
 	{
 		return state.readings.isPumpOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
+	}
+	else if ((state.readings.time - state.online_mode_time) < configuration->communication_timeout)
+	{
+		return DECISION_WAIT_FOR_COMMAND;
 	}
 	else if (state.readings.isPumpOn)
 	{
@@ -63,22 +83,14 @@ decision Decider::updatePumpDecision(planter_state_t & state)
 
 decision Decider::reasonToTurnOffWater(planter_state_t & state)
 {
-	return state.readings.waterOnTop ? DECISION_TURN_OFF_WHEN_WATER_HIGH
-		: !state.readings.waterOnBottom ? DECISION_TURN_OFF_WHEN_WATER_LOW
-		: ((state.readings.time - state.pump_start_time) > configuration->pump_active_time) ?
-			DECISION_TURN_OFF_BY_TIME
-		: DECISION_WAIT;
+	bool has_run_long_enough = 
+		(state.readings.time - state.pump_start_time) > configuration->pump_active_time;
+
+	return has_run_long_enough ? DECISION_TURN_OFF_BY_TIME : DECISION_WAIT;
 }
 
 decision Decider::reasonToTurnOnWater(planter_state_t & state)
 {
-	if (!state.readings.waterLevelOk)
-	{
-		return state.readings.waterOnTop ?
-			DECISION_KEEP_OFF_WHEN_HIGH
-			: DECISION_KEEP_OFF_WHEN_LOW;
-	}
-
 	bool full_cycle_since_last =
 		(state.readings.time - state.pump_start_time) > configuration->pump_cycle_time;
 
@@ -90,6 +102,10 @@ decision Decider::updateStateReportDecision(planter_state_t & state)
 	if (state.input_result == REPORT_STATE)
 	{
 		return DECISION_REPORT_ON_REQUEST;
+	}
+	else if ((state.readings.time - state.online_mode_time) < configuration->communication_timeout)
+	{
+		return DECISION_WAIT_FOR_COMMAND;
 	}
 	else if ((state.readings.time - state.report_sent_time) > configuration->report_interval)
 	{

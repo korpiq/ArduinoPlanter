@@ -31,3 +31,4 @@ Send commands over serial line (USB):
  - 's': report status.
  - 'p': switch pump state (on <-> off).
  - 'l': switch lamp state (on <-> off).
+ - 'o': online mode: do not turn devices on by timer until communication_timeout has passed.
