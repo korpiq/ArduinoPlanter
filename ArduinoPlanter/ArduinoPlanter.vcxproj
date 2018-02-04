@@ -100,7 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Communicator.cpp" />
-    <ClCompile Include="Configuration.c" />
+    <ClCompile Include="Configuration_names.c" />
+    <ClCompile Include="DefaultConfiguration.c" />
     <ClCompile Include="ArduinoPlanterSetup.cpp" />
     <ClCompile Include="Decider.cpp" />
     <ClCompile Include="Decisions.cpp" />

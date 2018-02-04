@@ -71,22 +71,22 @@ void Report::sendConfiguration(arduino_planter_configuration_t * configuration)
 	JsonObject & contents = jsonBuffer.createObject();
 
 	contents[configuration_setting_names[CONF_ACIDITY_PIN]] = configuration->acidity_pin;
-	contents[configuration_setting_names[CONF_AIR_READ_PIN]] = configuration->air_read_pin;
-	contents[configuration_setting_names[CONF_WATER_BOTTOM_PIN]] = configuration->water_bottom_pin;
-	contents[configuration_setting_names[CONF_WATER_TOP_PIN]] = configuration->water_top_pin;
-	contents[configuration_setting_names[CONF_LAMP_PIN]] = configuration->lamp_pin;
-	contents[configuration_setting_names[CONF_PUMP_PIN]] = configuration->pump_pin;
-	contents[configuration_setting_names[CONF_LAMP_CYCLE_TIME]] = configuration->lamp_cycle_time;
-	contents[configuration_setting_names[CONF_LAMP_ACTIVE_TIME]] = configuration->lamp_active_time;
-	contents[configuration_setting_names[CONF_PUMP_CYCLE_TIME]] = configuration->pump_cycle_time;
-	contents[configuration_setting_names[CONF_PUMP_ACTIVE_TIME]] = configuration->pump_active_time;
-	contents[configuration_setting_names[CONF_AIR_READ_INTERVAL]] = configuration->air_read_interval;
-	contents[configuration_setting_names[CONF_REPORT_INTERVAL]] = configuration->report_interval;
-	contents[configuration_setting_names[CONF_REMOTE_CONTROL_TIMEOUT]] = configuration->remote_control_timeout;
-	contents[configuration_setting_names[CONF_STARTUP_DELAY]] = configuration->startup_delay;
-	contents[configuration_setting_names[CONF_SERIAL_PORT_SPEED]] = configuration->serial_port_speed;
-	contents[configuration_setting_names[CONF_WATER_SENSOR_VALUE_WHEN_WET]] = configuration->water_sensor_value_when_wet;
-	contents[configuration_setting_names[CONF_AIR_SENSOR_TYPE]] = configuration->air_sensor_type;
+	contents["air_read_pin"] = configuration->air_read_pin;
+	contents["water_bottom_pin"] = configuration->water_bottom_pin;
+	contents["water_top_pin"] = configuration->water_top_pin;
+	contents["lamp_pin"] = configuration->lamp_pin;
+	contents["pump_pin"] = configuration->pump_pin;
+	contents["lamp_cycle_time"] = configuration->lamp_cycle_time;
+	contents["lamp_active_time"] = configuration->lamp_active_time;
+	contents["pump_cycle_time"] = configuration->pump_cycle_time;
+	contents["pump_active_time"] = configuration->pump_active_time;
+	contents["air_read_interval"] = configuration->air_read_interval;
+	contents["report_interval"] = configuration->report_interval;
+	contents["remote_control_timeout"] = configuration->remote_control_timeout;
+	contents["startup_delay"] = configuration->startup_delay;
+	contents["serial_port_speed"] = configuration->serial_port_speed;
+	contents["water_sensor_value_when_wet"] = configuration->water_sensor_value_when_wet;
+	contents["air_sensor_type"] = configuration->air_sensor_type;
 
 	send(contents);
 }

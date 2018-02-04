@@ -53,9 +53,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Configuration.c">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="ArduinoPlanterSetup.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -69,6 +66,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Decisions.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DefaultConfiguration.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Configuration_names.c">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
