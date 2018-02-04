@@ -13,13 +13,13 @@ const char * const action_names[NUMBER_OF_ACTIONS] =
 	action_send
 };
 
-const char * const reason_doing_fine = "Ok";
-const char * const reason_request = "Request";
-const char * const reason_remote_control_mode = "Waiting for command";
-const char * const reason_time = "Time";
-const char * const reason_low = "Water low";
-const char * const reason_high = "Water high";
-const char * const reason_change = "Change";
+const char * const reason_doing_fine = "ok";
+const char * const reason_request = "request";
+const char * const reason_remote_control_mode = "waiting for command";
+const char * const reason_time = "time";
+const char * const reason_low = "water low";
+const char * const reason_high = "water high";
+const char * const reason_change = "change";
 
 const char * const reason_descriptions[NUMBER_OF_REASONS] =
 {
