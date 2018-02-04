@@ -114,9 +114,9 @@ input_result Communicator::handleJson(char const * buffer)
 			configuration->report_interval = (milliseconds_t)it->value;
 			result = REQUEST_RECONFIGURE;
 		}
-		else if (!strcmp("communication_timeout", it->key))
+		else if (!strcmp("remote_control_timeout", it->key))
 		{
-			configuration->communication_timeout = (milliseconds_t)it->value;
+			configuration->remote_control_timeout = (milliseconds_t)it->value;
 			result = REQUEST_RECONFIGURE;
 		}
 		else if (!strcmp("startup_delay", it->key))

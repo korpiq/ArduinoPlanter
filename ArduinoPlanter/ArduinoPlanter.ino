@@ -53,10 +53,10 @@ void handle_input_result(input_result_t input_result)
 		planterSetup.init(default_configuration);
 		break;
 	case REQUEST_CONTROL_REMOTE:
-		state.online_mode_time = state.readings.time;
+		state.remote_control_mode_time = state.readings.time;
 		break;
 	case REQUEST_CONTROL_AUTONOMOUS:
-		state.online_mode_time = state.readings.time - default_configuration.communication_timeout;
+		state.remote_control_mode_time = state.readings.time - default_configuration.remote_control_timeout;
 		break;
 	case REQUEST_INVALID:
 		Serial.println("Invalid input.");

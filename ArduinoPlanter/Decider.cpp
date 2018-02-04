@@ -20,7 +20,7 @@ decision Decider::updateLampDecision(planter_state_t & state)
 	{
 		return state.readings.isLampOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
-	else if ((state.readings.time - state.online_mode_time) < configuration->communication_timeout)
+	else if ((state.readings.time - state.remote_control_mode_time) < configuration->remote_control_timeout)
 	{
 		return DECISION_WAIT_FOR_COMMAND;
 	}
@@ -67,7 +67,7 @@ decision Decider::updatePumpDecision(planter_state_t & state)
 	{
 		return state.readings.isPumpOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
-	else if ((state.readings.time - state.online_mode_time) < configuration->communication_timeout)
+	else if ((state.readings.time - state.remote_control_mode_time) < configuration->remote_control_timeout)
 	{
 		return DECISION_WAIT_FOR_COMMAND;
 	}
@@ -103,7 +103,7 @@ decision Decider::updateStateReportDecision(planter_state_t & state)
 	{
 		return DECISION_REPORT_ON_REQUEST;
 	}
-	else if ((state.readings.time - state.online_mode_time) < configuration->communication_timeout)
+	else if ((state.readings.time - state.remote_control_mode_time) < configuration->remote_control_timeout)
 	{
 		return DECISION_WAIT_FOR_COMMAND;
 	}
