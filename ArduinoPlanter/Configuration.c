@@ -20,7 +20,7 @@ arduino_planter_configuration_t default_configuration = {
 
 	.air_read_interval = 2000ul, // every 2 seconds
 	.report_interval = 60000ul, // every 1 minute
-	.communication_timeout = 3600000ul, // 1 hour
+	.remote_control_timeout = 3600000ul, // 1 hour
 	.startup_delay = 3000ul, // 3 seconds
 
 	.serial_port_speed = 115200l,

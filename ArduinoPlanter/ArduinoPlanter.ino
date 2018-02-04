@@ -36,21 +36,33 @@ void setup() {
 // the loop function runs over and over again until power down or reset
 void loop() {
 	communicator.listen();
-
-	if (state.input_result == RECONFIGURED)
-	{
-		planterSetup.init(default_configuration);
-	}
-	else if (state.input_result == INVALID)
-	{
-		Serial.println("Invalid input.");
-	}
+	handle_input_result(state.input_result);
 
 	planterSetup.updateReadings();
 	decider.updateDecisions(state, decisions);
 	execute_decisions(&decisions);
 
 	delay(100);
+}
+
+void handle_input_result(input_result_t input_result)
+{
+	switch (input_result)
+	{
+	case REQUEST_RECONFIGURE:
+		planterSetup.init(default_configuration);
+		break;
+	case REQUEST_CONTROL_REMOTE:
+		state.remote_control_started = state.readings.time;
+		break;
+	case REQUEST_CONTROL_AUTONOMOUS:
+		state.remote_control_started = state.readings.time - default_configuration.remote_control_timeout;
+		break;
+	case REQUEST_INVALID:
+		Serial.println("Invalid input.");
+	default:
+		break;
+	}
 }
 
 void execute_decisions(const decisions_t * const decisions)

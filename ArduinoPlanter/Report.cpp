@@ -10,10 +10,11 @@ void Report::sendReadings(readings_t * readings)
 	contents["acidity"] = readings->acidity;
 	contents["humidity"] = readings->humidity;
 	contents["temperature"] = readings->temperature;
-	contents["waterOnBottom"] = readings->waterOnBottom;
-	contents["waterOnTop"] = readings->waterOnTop;
-	contents["lamp"] = readings->isLampOn;
-	contents["pump"] = readings->isPumpOn;
+	contents["water_on_bottom"] = readings->water_on_bottom;
+	contents["water_on_top"] = readings->water_on_top;
+	contents["lamp"] = readings->is_lamp_on;
+	contents["pump"] = readings->is_pump_on;
+	contents["remote_control"] = readings->is_remote_control;
 
 	send(contents);
 }
@@ -81,7 +82,7 @@ void Report::sendConfiguration(arduino_planter_configuration_t * configuration)
 	contents["pump_active_time"] = configuration->pump_active_time;
 	contents["air_read_interval"] = configuration->air_read_interval;
 	contents["report_interval"] = configuration->report_interval;
-	contents["communication_timeout"] = configuration->communication_timeout;
+	contents["remote_control_timeout"] = configuration->remote_control_timeout;
 	contents["startup_delay"] = configuration->startup_delay;
 	contents["serial_port_speed"] = configuration->serial_port_speed;
 	contents["water_sensor_value_when_wet"] = configuration->water_sensor_value_when_wet;

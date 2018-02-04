@@ -14,9 +14,9 @@
 typedef struct readings {
 	milliseconds_t time;
 	float acidity, humidity, temperature;
-	bool waterOnBottom, waterOnTop, waterLevelOk;
-	bool isLampOn, isPumpOn;
-	bool communication;
+	bool water_on_bottom, water_on_top, water_level_ok;
+	bool is_lamp_on, is_pump_on;
+	bool is_remote_control;
 } readings_t;
 
 #endif

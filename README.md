@@ -31,3 +31,5 @@ Send commands over serial line (USB):
  - 's': report status.
  - 'p': switch pump state (on <-> off).
  - 'l': switch lamp state (on <-> off).
+ - 'r': remote control mode: turn devices on or off by timer until communication_timeout has passed.
+ - 'a': autonomous control mode: turn devices on and off by timer.

@@ -31,7 +31,7 @@ typedef struct arduino_planter_configuration {
 
 		air_read_interval,
 		report_interval,
-		communication_timeout,
+		remote_control_timeout,
 		startup_delay;
 
 	long

@@ -12,13 +12,15 @@
 #include "Readings.h"
 
 typedef enum input_result {
-	SILENT,
-	INVALID,
-	PUMP,
-	LAMP,
-	RECONFIGURED,
-	REPORT_CONFIGURATION,
-	REPORT_STATE
+	REQUEST_NOTHING,
+	REQUEST_INVALID,
+	REQUEST_PUMP,
+	REQUEST_LAMP,
+	REQUEST_RECONFIGURE,
+	REQUEST_REPORT_CONFIGURATION,
+	REQUEST_REPORT_STATE,
+	REQUEST_CONTROL_REMOTE,
+	REQUEST_CONTROL_AUTONOMOUS
 } input_result_t;
 
 typedef struct planter_state {
@@ -29,7 +31,8 @@ typedef struct planter_state {
 		pump_start_time,
 		pump_stop_time,
 		air_read_time,
-		report_sent_time;
+		report_sent_time,
+		remote_control_started;
 	input_result_t input_result;
 } planter_state_t;
 
