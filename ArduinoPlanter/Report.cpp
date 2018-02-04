@@ -14,6 +14,7 @@ void Report::sendReadings(readings_t * readings)
 	contents["waterOnTop"] = readings->waterOnTop;
 	contents["lamp"] = readings->isLampOn;
 	contents["pump"] = readings->isPumpOn;
+	contents["remoteControl"] = readings->is_remote_control;
 
 	send(contents);
 }
