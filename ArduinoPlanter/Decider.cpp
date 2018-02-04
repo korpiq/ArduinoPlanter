@@ -18,13 +18,13 @@ decision Decider::updateLampDecision(planter_state_t & state)
 {
 	if (state.input_result == REQUEST_LAMP)
 	{
-		return state.readings.isLampOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
+		return state.readings.is_lamp_on ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
 	else if (state.readings.is_remote_control)
 	{
 		return DECISION_WAIT_FOR_COMMAND;
 	}
-	else if (state.readings.isLampOn)
+	else if (state.readings.is_lamp_on)
 	{
 		return reasonToTurnOffLamp(state);
 	}
@@ -51,27 +51,27 @@ decision Decider::reasonToTurnOnLamp(planter_state_t & state)
 
 decision Decider::updatePumpDecision(planter_state_t & state)
 {
-	if (state.readings.waterOnTop) // ride over troubled water
+	if (state.readings.water_on_top) // ride over troubled water
 	{
-		return state.readings.isPumpOn ?
+		return state.readings.is_pump_on ?
 			DECISION_TURN_OFF_WHEN_WATER_HIGH
 			: DECISION_KEEP_OFF_WHEN_HIGH;
 	}
-	else if (! state.readings.waterOnBottom)
+	else if (! state.readings.water_on_bottom)
 	{
-		return state.readings.isPumpOn ?
+		return state.readings.is_pump_on ?
 			DECISION_TURN_OFF_WHEN_WATER_LOW
 			: DECISION_KEEP_OFF_WHEN_LOW;
 	}
 	else if (state.input_result == REQUEST_PUMP)
 	{
-		return state.readings.isPumpOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
+		return state.readings.is_pump_on ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
 	else if (state.readings.is_remote_control)
 	{
 		return DECISION_WAIT_FOR_COMMAND;
 	}
-	else if (state.readings.isPumpOn)
+	else if (state.readings.is_pump_on)
 	{
 		return reasonToTurnOffWater(state);
 	}

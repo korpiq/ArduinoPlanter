@@ -39,12 +39,12 @@ void ArduinoPlanterSetup::updateReadings()
 	readings.time = millis();
 	readings.acidity = analogRead(configuration->acidity_pin);
 
-	readings.waterOnBottom = readWaterSensor(configuration->water_bottom_pin);
-	readings.waterOnTop = readWaterSensor(configuration->water_top_pin);
-	readings.waterLevelOk = readings.waterOnBottom && !readings.waterOnTop;
+	readings.water_on_bottom = readWaterSensor(configuration->water_bottom_pin);
+	readings.water_on_top = readWaterSensor(configuration->water_top_pin);
+	readings.water_level_ok = readings.water_on_bottom && !readings.water_on_top;
 
-	readings.isLampOn = isLampOn;
-	readings.isPumpOn = isPumpOn;
+	readings.is_lamp_on = isLampOn;
+	readings.is_pump_on = isPumpOn;
 	readings.is_remote_control = (readings.time - state->remote_control_started) < configuration->remote_control_timeout;
 
 	if ((readings.time - state->air_read_time) >= configuration->air_read_interval) {
@@ -72,7 +72,7 @@ void ArduinoPlanterSetup::setLamp(bool on)
 
 void ArduinoPlanterSetup::setPump(bool on)
 {
-	if (state->readings.waterLevelOk || !on)
+	if (state->readings.water_level_ok || !on)
 	{
 		digitalWrite(configuration->pump_pin, (isPumpOn = on) ? HIGH : LOW);
 		*(on ? &state->pump_start_time : &state->pump_stop_time) = millis();

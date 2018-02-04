@@ -10,11 +10,11 @@ void Report::sendReadings(readings_t * readings)
 	contents["acidity"] = readings->acidity;
 	contents["humidity"] = readings->humidity;
 	contents["temperature"] = readings->temperature;
-	contents["waterOnBottom"] = readings->waterOnBottom;
-	contents["waterOnTop"] = readings->waterOnTop;
-	contents["lamp"] = readings->isLampOn;
-	contents["pump"] = readings->isPumpOn;
-	contents["remoteControl"] = readings->is_remote_control;
+	contents["water_on_bottom"] = readings->water_on_bottom;
+	contents["water_on_top"] = readings->water_on_top;
+	contents["lamp"] = readings->is_lamp_on;
+	contents["pump"] = readings->is_pump_on;
+	contents["remote_control"] = readings->is_remote_control;
 
 	send(contents);
 }
