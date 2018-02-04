@@ -42,8 +42,11 @@ void loop() {
 		case RECONFIGURED:
 			planterSetup.init(default_configuration);
 			break;
-		case ONLINE_MODE:
+		case CONTROL_REMOTE:
 			state.online_mode_time = state.readings.time;
+			break;
+		case CONTROL_AUTONOMOUS:
+			state.online_mode_time = state.readings.time - default_configuration.communication_timeout;
 			break;
 		case INVALID:
 			Serial.println("Invalid input.");

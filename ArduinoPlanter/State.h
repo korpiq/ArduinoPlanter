@@ -19,7 +19,8 @@ typedef enum input_result {
 	RECONFIGURED,
 	REPORT_CONFIGURATION,
 	REPORT_STATE,
-	ONLINE_MODE
+	CONTROL_REMOTE,
+	CONTROL_AUTONOMOUS
 } input_result_t;
 
 typedef struct planter_state {
