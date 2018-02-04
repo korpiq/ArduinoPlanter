@@ -16,7 +16,7 @@ void Decider::updateDecisions(planter_state_t & state, decisions_t & decisions)
 
 decision Decider::updateLampDecision(planter_state_t & state)
 {
-	if (state.input_result == LAMP)
+	if (state.input_result == REQUEST_LAMP)
 	{
 		return state.readings.isLampOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
@@ -63,7 +63,7 @@ decision Decider::updatePumpDecision(planter_state_t & state)
 			DECISION_TURN_OFF_WHEN_WATER_LOW
 			: DECISION_KEEP_OFF_WHEN_LOW;
 	}
-	else if (state.input_result == PUMP)
+	else if (state.input_result == REQUEST_PUMP)
 	{
 		return state.readings.isPumpOn ? DECISION_TURN_OFF_BY_REQUEST : DECISION_TURN_ON_BY_REQUEST;
 	}
@@ -99,7 +99,7 @@ decision Decider::reasonToTurnOnWater(planter_state_t & state)
 
 decision Decider::updateStateReportDecision(planter_state_t & state)
 {
-	if (state.input_result == REPORT_STATE)
+	if (state.input_result == REQUEST_REPORT_STATE)
 	{
 		return DECISION_REPORT_ON_REQUEST;
 	}
@@ -120,7 +120,7 @@ decision Decider::updateStateReportDecision(planter_state_t & state)
 decision Decider::updateConfigurationReportDecision(planter_state_t & state)
 {
 	return
-		state.input_result == RECONFIGURED ? DECISION_REPORT_WHEN_CHANGING
-		: state.input_result == REPORT_CONFIGURATION ? DECISION_REPORT_ON_REQUEST
+		state.input_result == REQUEST_RECONFIGURE ? DECISION_REPORT_WHEN_CHANGING
+		: state.input_result == REQUEST_REPORT_CONFIGURATION ? DECISION_REPORT_ON_REQUEST
 		: DECISION_NO_ACTION;
 }

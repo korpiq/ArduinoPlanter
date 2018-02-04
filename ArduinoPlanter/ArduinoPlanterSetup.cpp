@@ -28,7 +28,7 @@ void ArduinoPlanterSetup::initState(planter_state_t & state)
 	state.pump_stop_time = 0;
 	state.air_read_time = configuration->startup_delay - configuration->air_read_interval;
 	state.report_sent_time = -configuration->report_interval;
-	state.input_result = SILENT;
+	state.input_result = REQUEST_NOTHING;
 	state.online_mode_time = -configuration->communication_timeout;
 }
 

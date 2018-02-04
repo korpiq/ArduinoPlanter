@@ -39,16 +39,16 @@ void loop() {
 
 	switch (state.input_result)
 	{
-		case RECONFIGURED:
+		case REQUEST_RECONFIGURE:
 			planterSetup.init(default_configuration);
 			break;
-		case CONTROL_REMOTE:
+		case REQUEST_CONTROL_REMOTE:
 			state.online_mode_time = state.readings.time;
 			break;
-		case CONTROL_AUTONOMOUS:
+		case REQUEST_CONTROL_AUTONOMOUS:
 			state.online_mode_time = state.readings.time - default_configuration.communication_timeout;
 			break;
-		case INVALID:
+		case REQUEST_INVALID:
 			Serial.println("Invalid input.");
 		default:
 			break;
