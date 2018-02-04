@@ -29,7 +29,7 @@ void ArduinoPlanterSetup::initState(planter_state_t & state)
 	state.air_read_time = configuration->startup_delay - configuration->air_read_interval;
 	state.report_sent_time = -configuration->report_interval;
 	state.input_result = REQUEST_NOTHING;
-	state.remote_control_mode_time = -configuration->remote_control_timeout;
+	state.remote_control_started = -configuration->remote_control_timeout;
 }
 
 void ArduinoPlanterSetup::updateReadings()
@@ -45,7 +45,7 @@ void ArduinoPlanterSetup::updateReadings()
 
 	readings.isLampOn = isLampOn;
 	readings.isPumpOn = isPumpOn;
-	readings.communication = Serial.available();
+	readings.is_remote_control = (readings.time - state->remote_control_started) < configuration->remote_control_timeout;
 
 	if ((readings.time - state->air_read_time) >= configuration->air_read_interval) {
 		readings.humidity = airSensor->readHumidity();

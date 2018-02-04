@@ -32,7 +32,7 @@ typedef struct planter_state {
 		pump_stop_time,
 		air_read_time,
 		report_sent_time,
-		remote_control_mode_time;
+		remote_control_started;
 	input_result_t input_result;
 } planter_state_t;
 
