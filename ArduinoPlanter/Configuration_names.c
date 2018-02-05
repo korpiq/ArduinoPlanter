@@ -1,25 +1,25 @@
 
 #include "Configuration.h"
 
-const char confname_acidity_pin[] PROGMEM = "acidity_pin";
-const char confname_air_read_pin[] PROGMEM = "air_read_pin";
-const char confname_water_bottom_pin[] PROGMEM = "water_bottom_pin";
-const char confname_water_top_pin[] PROGMEM = "water_top_pin";
-const char confname_lamp_pin[] PROGMEM = "lamp_pin";
-const char confname_pump_pin[] PROGMEM = "pump_pin";
-const char confname_lamp_cycle_time[] PROGMEM = "lamp_cycle_time";
-const char confname_lamp_active_time[] PROGMEM = "lamp_active_time";
-const char confname_pump_cycle_time[] PROGMEM = "pump_cycle_time";
-const char confname_pump_active_time[] PROGMEM = "pump_active_time";
-const char confname_air_read_interval[] PROGMEM = "air_read_interval";
-const char confname_report_interval[] PROGMEM = "report_interval";
-const char confname_remote_control_timeout[] PROGMEM = "remote_control_timeout";
-const char confname_startup_delay[] PROGMEM = "startup_delay";
-const char confname_serial_port_speed[] PROGMEM = "serial_port_speed";
-const char confname_water_sensor_value_when_wet[] PROGMEM = "water_sensor_value_when_wet";
-const char confname_air_sensor_type[] PROGMEM = "air_sensor_type";
+const char PROGMEM confname_acidity_pin[] = "acidity_pin";
+const char PROGMEM confname_air_read_pin[] = "air_read_pin";
+const char PROGMEM confname_water_bottom_pin[] = "water_bottom_pin";
+const char PROGMEM confname_water_top_pin[] = "water_top_pin";
+const char PROGMEM confname_lamp_pin[] = "lamp_pin";
+const char PROGMEM confname_pump_pin[] = "pump_pin";
+const char PROGMEM confname_lamp_cycle_time[] = "lamp_cycle_time";
+const char PROGMEM confname_lamp_active_time[] = "lamp_active_time";
+const char PROGMEM confname_pump_cycle_time[] = "pump_cycle_time";
+const char PROGMEM confname_pump_active_time[] = "pump_active_time";
+const char PROGMEM confname_air_read_interval[] = "air_read_interval";
+const char PROGMEM confname_report_interval[] = "report_interval";
+const char PROGMEM confname_remote_control_timeout[] = "remote_control_timeout";
+const char PROGMEM confname_startup_delay[] = "startup_delay";
+const char PROGMEM confname_serial_port_speed[] = "serial_port_speed";
+const char PROGMEM confname_water_sensor_value_when_wet[] = "water_sensor_value_when_wet";
+const char PROGMEM confname_air_sensor_type[] = "air_sensor_type";
 
-const char * const configuration_setting_names[NUMBER_OF_CONFIGURATION_SETTINGS] PROGMEM =
+const char * const PROGMEM configuration_setting_names[NUMBER_OF_CONFIGURATION_SETTINGS] =
 {
 	confname_acidity_pin,
 	confname_air_read_pin,
