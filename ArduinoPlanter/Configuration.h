@@ -2,6 +2,7 @@
 #define ARDUINO_PLANTER_CONFIGURATION
 
 #include "arduino_planter_types.h"
+#include "avr/pgmspace.h"
 
 // buffers are reserved on stack, sometimes on top of each other
 #define INPUT_BUFSIZ 280
@@ -63,6 +64,6 @@ typedef struct arduino_planter_configuration {
 } arduino_planter_configuration_t;
 
 extern arduino_planter_configuration_t default_configuration;
-extern const char * const configuration_setting_names[NUMBER_OF_CONFIGURATION_SETTINGS];
+extern const char * const configuration_setting_names[NUMBER_OF_CONFIGURATION_SETTINGS] PROGMEM;
 
 #endif
