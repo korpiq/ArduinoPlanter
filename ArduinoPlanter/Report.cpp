@@ -62,7 +62,9 @@ public:
 	JsonSender & key(const char * key) // PROGMEM pointer
 	{
 		if (fields_sent)
+		{
 			Serial.print(',');
+		}
 		else
 		{
 			Serial.print('{');
@@ -158,9 +160,7 @@ void Report::sendReadings(readings_t * readings)
 
 void Report::sendDecisions(const decisions_t * const decisions)
 {
-	DecisionSender sender;
-	sender.begin(text_decisions);
-	sender
+	((DecisionSender&) DecisionSender().begin(text_decisions))
 		.send(text_lamp, decisions->turn_lamp_switch)
 		.send(text_pump, decisions->turn_pump_switch)
 		.send(text_state, decisions->report_state)
