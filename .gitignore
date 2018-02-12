@@ -260,3 +260,5 @@ paket-files/
 __pycache__/
 *.pyc
 ArduinoPlanter/__vm/
+/RpiPlantation/local_config.py
+/RpiPlantation/plantationenv
