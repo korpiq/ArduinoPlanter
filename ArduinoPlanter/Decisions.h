@@ -1,4 +1,5 @@
 #pragma once
+#include <avr/pgmspace.h>
 
 enum actions
 {
@@ -9,7 +10,7 @@ enum actions
 	NUMBER_OF_ACTIONS
 };
 
-extern const char * const action_names[NUMBER_OF_ACTIONS];
+extern const char * const PROGMEM action_names[NUMBER_OF_ACTIONS];
 
 enum reasons
 {
@@ -23,7 +24,7 @@ enum reasons
 	NUMBER_OF_REASONS
 };
 
-extern const char * const reason_descriptions[NUMBER_OF_REASONS];
+extern const char * const PROGMEM reason_descriptions[NUMBER_OF_REASONS];
 
 enum decision
 {

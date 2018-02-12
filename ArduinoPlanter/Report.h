@@ -14,6 +14,9 @@
 #include "State.h"
 #include "Decisions.h"
 
+// buffer in stack to hold each JSON string constant in turn
+#define SENDER_BUFSIZ 30
+
 class Report
 {
 public:
@@ -21,7 +24,6 @@ public:
 	void sendDecisions(const decisions_t * const decisions);
 	void sendState(planter_state_t * state);
 	void sendConfiguration(arduino_planter_configuration_t * configuration);
-	void send(JsonObject &);
 };
 
 #endif

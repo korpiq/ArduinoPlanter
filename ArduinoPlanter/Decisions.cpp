@@ -1,11 +1,11 @@
 #include "Decisions.h"
 
-const char * const action_nothing = "inaction";
-const char * const action_on = "turn on";
-const char * const action_off = "turn off";
-const char * const action_send = "send report";
+const char PROGMEM action_nothing[] = "inaction";
+const char PROGMEM action_on[] = "turn on";
+const char PROGMEM action_off[] = "turn off";
+const char PROGMEM action_send[] = "send report";
 
-const char * const action_names[NUMBER_OF_ACTIONS] =
+const char * const PROGMEM action_names[NUMBER_OF_ACTIONS] =
 {
 	action_nothing,
 	action_on,
@@ -13,15 +13,15 @@ const char * const action_names[NUMBER_OF_ACTIONS] =
 	action_send
 };
 
-const char * const reason_doing_fine = "ok";
-const char * const reason_request = "request";
-const char * const reason_remote_control_mode = "waiting for command";
-const char * const reason_time = "time";
-const char * const reason_low = "water low";
-const char * const reason_high = "water high";
-const char * const reason_change = "change";
+const char PROGMEM reason_doing_fine[] = "ok";
+const char PROGMEM reason_request[] = "request";
+const char PROGMEM reason_remote_control_mode[] = "waiting for command";
+const char PROGMEM reason_time[] = "time";
+const char PROGMEM reason_low[] = "water low";
+const char PROGMEM reason_high[] = "water high";
+const char PROGMEM reason_change[] = "change";
 
-const char * const reason_descriptions[NUMBER_OF_REASONS] =
+const char * const PROGMEM reason_descriptions[NUMBER_OF_REASONS] =
 {
 	reason_doing_fine,
 	reason_request,

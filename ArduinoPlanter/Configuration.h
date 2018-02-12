@@ -2,12 +2,34 @@
 #define ARDUINO_PLANTER_CONFIGURATION
 
 #include "arduino_planter_types.h"
+#include "avr/pgmspace.h"
 
 // buffers are reserved on stack, sometimes on top of each other
-#define INPUT_BUFSIZ 300
+#define INPUT_BUFSIZ 280
 #define JSON_BUFSIZ  300
 
 /* Declaration of available planter configuration settings */
+
+enum configuration_settings {
+	CONF_ACIDITY_PIN,
+	CONF_AIR_READ_PIN,
+	CONF_WATER_BOTTOM_PIN,
+	CONF_WATER_TOP_PIN,
+	CONF_LAMP_PIN,
+	CONF_PUMP_PIN,
+	CONF_LAMP_CYCLE_TIME,
+	CONF_LAMP_ACTIVE_TIME,
+	CONF_PUMP_CYCLE_TIME,
+	CONF_PUMP_ACTIVE_TIME,
+	CONF_AIR_READ_INTERVAL,
+	CONF_REPORT_INTERVAL,
+	CONF_REMOTE_CONTROL_TIMEOUT,
+	CONF_STARTUP_DELAY,
+	CONF_SERIAL_PORT_SPEED,
+	CONF_WATER_SENSOR_VALUE_WHEN_WET,
+	CONF_AIR_SENSOR_TYPE,
+	NUMBER_OF_CONFIGURATION_SETTINGS
+};
 
 typedef struct arduino_planter_configuration {
 	analog_in_t
@@ -42,5 +64,6 @@ typedef struct arduino_planter_configuration {
 } arduino_planter_configuration_t;
 
 extern arduino_planter_configuration_t default_configuration;
+extern const char * const configuration_setting_names[NUMBER_OF_CONFIGURATION_SETTINGS] PROGMEM;
 
 #endif
