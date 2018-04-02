@@ -8,4 +8,6 @@ Subdirectories contain source code for different parts of the system:
  2. [RpiPlantation](RpiPlantation) runs on a computer such as Raspberry Pi to control one or more ArduinoPlanters.
  3. Azure services are used to monitor and control plantations remotely.
 
+Our [Backlog is in Trello](https://trello.com/b/gl1Onzx4/kasvikontti)
+
 [![Sponsored](https://img.shields.io/badge/chilicorn-sponsored-brightgreen.svg)](http://spiceprogram.org/oss-sponsorship/)
