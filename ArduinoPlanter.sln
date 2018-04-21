@@ -8,10 +8,17 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{34ADD759-B12B-4240-B87D-CC91BE5BD550}"
 	ProjectSection(SolutionItems) = preProject
 		LICENSE.txt = LICENSE.txt
+		doc\PlantationsTracking-in-Azure.md = doc\PlantationsTracking-in-Azure.md
 		README.md = README.md
 	EndProjectSection
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "RpiPlantation", "RpiPlantation\RpiPlantation.pyproj", "{1C08FFAB-7778-47D3-A9CB-3AE09A0C96E0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "AzureJobStreamFromPlantations", "AzureJobStreamFromPlantations", "{199B0F33-1E86-44E2-ADB2-17C1C10A919B}"
+	ProjectSection(SolutionItems) = preProject
+		Resources\Azure\Jobs\StreamsFromPlantations\functions-flatten.js = Resources\Azure\Jobs\StreamsFromPlantations\functions-flatten.js
+		Resources\Azure\Jobs\StreamsFromPlantations\query.tsql = Resources\Azure\Jobs\StreamsFromPlantations\query.tsql
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -34,6 +41,9 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{199B0F33-1E86-44E2-ADB2-17C1C10A919B} = {34ADD759-B12B-4240-B87D-CC91BE5BD550}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9185B4F9-2E5F-4E2F-96DC-A69F73DDFDA1}

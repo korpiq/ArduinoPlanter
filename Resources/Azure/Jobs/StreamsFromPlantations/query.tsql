@@ -1,0 +1,19 @@
+WITH rpidata AS
+(
+	SELECT 
+	*
+	FROM [rpi]
+), flat_data AS
+(
+	SELECT
+		UDF.flatten(planter)
+	FROM [rpi] AS planter
+)
+
+SELECT *
+INTO [PowerBI]
+FROM flat_data
+
+SELECT *
+INTO [storageout]
+FROM rpidata
