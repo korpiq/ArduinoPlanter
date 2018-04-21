@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Threading.Tasks;
@@ -21,20 +20,20 @@ namespace AzureFunctions
                 JsonConvert.DeserializeObject<Dictionary<string, object>>(postContent);
             Dictionary<string, object> flatOutput = new Dictionary<string, object>();
 
-            flatten(deepInput, flatOutput, "", "_");
+            Flatten(deepInput, flatOutput, "", "_");
 
             string flatJson = JsonConvert.SerializeObject(flatOutput);
 
             return req.CreateResponse(HttpStatusCode.OK, flatJson);
         }
 
-        private static void flatten(Dictionary<string, object> deepInput, Dictionary<string, object> flatOutput, string prefix, string separator)
+        private static void Flatten(Dictionary<string, object> deepInput, Dictionary<string, object> flatOutput, string prefix, string separator)
         {
             foreach(var key in deepInput.Keys) {
                 var value = deepInput[key];
                 if (value is Dictionary<string, object>)
                 {
-                    flatten(value as Dictionary<string, object>, flatOutput, prefix + key + separator, separator);
+                    Flatten(value as Dictionary<string, object>, flatOutput, prefix + key + separator, separator);
                 }
                 else
                 {
