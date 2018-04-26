@@ -1,4 +1,4 @@
 {
-	"port": "COM15",
+	"port": "COM3",
 	"speed": 115200
 }

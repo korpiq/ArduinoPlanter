@@ -1,0 +1,4 @@
+{
+	"port": "/dev/tty.usbmodem621",
+	"speed": 115200
+}
