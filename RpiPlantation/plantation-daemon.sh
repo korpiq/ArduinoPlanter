@@ -11,6 +11,7 @@ is_running () {
 
 start_plantation () {
 	if is_running
+	then
 		echo "$NAME already running!" >&2
 		exit 1
 	fi
@@ -27,6 +28,7 @@ start_plantation () {
 
 stop_plantation () {
 	if ! is_running
+	then
 		echo "$NAME is not running!" >&2
 		exit 1
 	fi
@@ -36,6 +38,7 @@ stop_plantation () {
 
 status_plantation () {
 	if is_running
+	then
 		echo "$NAME is running" >&2
 		return 0
 	else
