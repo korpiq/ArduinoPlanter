@@ -15,6 +15,9 @@ configuration = {
 }
 
 
+MSG_TXT = '{ "plantation_id": "%s", "planter_id": "%s", "data": %s }'
+
+
 def handle_planter(iothub_client, name, settings):
     planter_message = read_from_serial(settings)
 
@@ -27,8 +30,11 @@ def iothub_client_telemetry_run():
 
     try:
         while True:
-            for name, settings in configuration['planters'].items():
-                handle_planter(iothub_client, name, settings)
+            try:
+                for name, settings in configuration['planters'].items():
+                    handle_planter(iothub_client, name, settings)
+            except Exception as e:
+                print(e)
 
             time.sleep(configuration['delay'])
 
