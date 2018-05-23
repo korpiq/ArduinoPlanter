@@ -47,7 +47,7 @@ status_plantation () {
 	fi
 }
 
-case "$1"
+case "$1" in
 	start)
 		start_plantation
 		;;
