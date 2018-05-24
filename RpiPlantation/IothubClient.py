@@ -21,18 +21,18 @@ class IothubClient(object):
 
     def iothub_client_init(self):
         # prepare iothub client
-        self.client = IoTHubClient(self.iothub_connection_string, protocol)
+        client = IoTHubClient(self.iothub_connection_string, self.protocol)
         # set the time until a message times out
-        self.client.set_option("messageTimeout", message_timeout)
-        self.client.set_option("logtrace", 0)
-        self.client.set_option("product_info", "rpi-plantation")
-        self.messages_sent = 0
-        self.messages_confirmed = 0
-        return self.client
+        client.set_option("messageTimeout", self.message_timeout)
+        client.set_option("logtrace", 0)
+        client.set_option("product_info", "rpi-plantation")
+        return client
 
     def get_client(self):
         if self.client is None:
             self.client = self.iothub_client_init()
+            self.messages_sent = 0
+            self.messages_confirmed = 0
         return self.client
 
     def send_confirmation_callback(self, message, result, user_context):
@@ -46,7 +46,7 @@ class IothubClient(object):
         try:
             iothub_message = IoTHubMessage(message)
             self.messages_sent += 1
-            iothub_message.message_id = "message_%d" % messages_sent
+            iothub_message.message_id = "message_%d" % self.messages_sent
             self.get_client().send_event_async(iothub_message, send_confirmation_callback, messages_sent)
         except IoTHubError as iothub_error:
              sys.stderr.writeln( "IoTHub error: \"%s\"" % iothub_error )
