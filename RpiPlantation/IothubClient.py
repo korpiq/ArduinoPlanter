@@ -47,7 +47,7 @@ class IothubClient(object):
             iothub_message = IoTHubMessage(message)
             self.messages_sent += 1
             iothub_message.message_id = "message_%d" % self.messages_sent
-            self.get_client().send_event_async(iothub_message, send_confirmation_callback, messages_sent)
+            self.get_client().send_event_async(iothub_message, self.send_confirmation_callback, self.messages_sent)
         except IoTHubError as iothub_error:
              sys.stderr.writeln( "IoTHub error: \"%s\"" % iothub_error )
              self.client = None
