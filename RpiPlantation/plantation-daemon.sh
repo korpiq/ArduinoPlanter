@@ -9,6 +9,10 @@ is_running () {
 	[ -f "$PID_FILE" ] && [ -d "/proc/$(cat "$PID_FILE")" ]
 }
 
+exec_logger () {
+    exec logger -t "$NAME $1" -p "$LOG_FACILITY.$1"
+}
+
 start_plantation () {
 	if is_running
 	then
@@ -18,10 +22,7 @@ start_plantation () {
 
 	(
 		cd -- "$THIS_DIR"
-		LOG_CMD="logger -t $NAME -p $LOG_FACILITY"
-		LOG_INFO="$LOG_CMD.info"
-		LOG_ERR="$LOG_CMD.err"
-		python3 ./RpiPlantation.py 1> >($LOG_INFO) 2> >($LOG_ERR) < /dev/null &
+		python3 ./RpiPlantation.py 1> >(exec_logger info) 2> >(exec_logger err) < /dev/null &
 		echo "$!" > "./$NAME.pid"
 	)
 }
