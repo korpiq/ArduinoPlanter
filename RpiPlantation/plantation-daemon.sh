@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 NAME="plantation"
 LOG_FACILITY="local3"
@@ -18,12 +18,12 @@ start_plantation () {
 
 	(
 		cd -- "$THIS_DIR"
-		(
-			(nohup python3 ./RpiPlantation.py | logger -t "$NAME" -p "$LOG_FACILITY".info ) 2>&1
-		) | logger -t "$NAME" -p "$LOG_FACILITY".err
-	) &
-
-	echo "$!" > "./$NAME.pid"
+		LOG_CMD="logger -t $NAME -p $LOG_FACILITY"
+		LOG_INFO="$LOG_CMD.info"
+		LOG_ERR="$LOG_CMD.err"
+		python3 ./RpiPlantation.py 1> >($LOG_INFO) 2> >($LOG_ERR) < /dev/null &
+		echo "$!" > "./$NAME.pid"
+	)
 }
 
 stop_plantation () {
