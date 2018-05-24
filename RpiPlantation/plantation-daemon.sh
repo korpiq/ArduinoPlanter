@@ -22,7 +22,7 @@ start_plantation () {
 
 	(
 		cd -- "$THIS_DIR"
-		python3 ./RpiPlantation.py 1> >(exec_logger info) 2> >(exec_logger err) < /dev/null &
+		python3 -u ./RpiPlantation.py 1> >(exec_logger info) 2> >(exec_logger err) < /dev/null &
 		echo "$!" > "./$NAME.pid"
 	)
 }
