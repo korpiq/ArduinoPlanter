@@ -3,6 +3,7 @@ import sys
 import time
 import json
 import glob
+import atexit
 from IothubClient import IothubClient
 from SerialCommunicator import read_from_serial
 
@@ -16,6 +17,13 @@ configuration = {
 
 
 MSG_TXT = '{ "plantation_id": "%s", "planter_id": "%s", "data": %s }'
+
+
+def log_exit():
+    sys.stderr.write(__file__ +  " exit.\n")
+
+
+atexit.register(log_exit)
 
 
 def handle_planter(iothub_client, name, settings):
@@ -34,12 +42,14 @@ def iothub_client_telemetry_run():
                 for name, settings in configuration['planters'].items():
                     handle_planter(iothub_client, name, settings)
             except Exception as e:
-                print(e)
+                sys.stderr.write('\n')
 
             time.sleep(configuration['delay'])
 
     except KeyboardInterrupt:
-        print ( "RpiPlantation stopped" )
+        sys.stderr.write(__file__ + " stopped by user.\n")
+    except Exception as e:
+        sys.stderr.write('%s failed: %s\n' % (__file__, str(e)))
 
 
 def configure(filenames):
