@@ -56,6 +56,7 @@ public:
 		Serial.print('"');
 		Serial.print(buffer);
 		Serial.print('"');
+		Serial.flush();
 		return *this;
 	}
 
