@@ -4,8 +4,9 @@ import time
 import json
 import glob
 import atexit
+import threading
 from IothubClient import IothubClient
-from SerialCommunicator import read_from_serial
+from SerialCommunicator import read_lines_from_serial, write_to_serial
 
 
 configuration = {
@@ -16,33 +17,99 @@ configuration = {
 }
 
 
-MSG_TXT = '{ "plantation_id": "%s", "planter_id": "%s", "data": %s }'
+console_input = None
 
 
-def log_exit():
-    sys.stderr.write(__file__ +  " exit.\n")
+def create_log_exit():
+    filename = __file__
+    def log_exit():
+        sys.stderr.write(filename + " exit.\n")
+
+    return log_exit
 
 
-atexit.register(log_exit)
+atexit.register(create_log_exit())
+
+
+def flatten(collection, prefix='', separator='_'):
+    result = {}
+    keys = isinstance(collection, dict) and collection.keys() or range(0, len(collection))
+
+    for key in keys:
+        value = collection[key]
+        if isinstance(value, dict) or isinstance(value, list):
+            result.update(flatten(value, prefix + str(key) + separator, separator))
+        else:
+            result[prefix + str(key)] = value
+
+    return result
+
+
+def handle_planter_message(name, planter_message):
+    planter_data = json.loads(planter_message.decode('utf8'))
+    flat_data = flatten(planter_data)
+
+    result = {
+        'plantation_id': configuration['plantation_id'],
+        'planter_id': name,
+        'data': flat_data
+    }
+
+    return json.dumps(result)
 
 
 def handle_planter(iothub_client, name, settings):
-    planter_message = read_from_serial(settings)
+    planter_messages = read_lines_from_serial(settings)
 
-    if planter_message:
-        iothub_client.send(MSG_TXT % (configuration['plantation_id'], name, planter_message.decode('utf8')))
+    for planter_message in planter_messages:
+        iothub_client.send(handle_planter_message(name, planter_message))
+
+console_reader_thread = None
+def start_console_reader():
+    """
+    Starts reading input lines one by one from console into global console_input without blocking.
+    Set console_input to None after use to read more.
+    Set console_input to False to finish reading.
+    """
+
+    def console_reader():
+        global console_input
+        console_input = None
+
+        while console_input is not False:
+            sys.stderr.write("reading\n")
+            if console_input is None:
+                console_input = sys.stdin.readline()
+            else:
+                time.sleep(1)
+
+    console_reader_thread = threading.Thread(target=console_reader)
 
 
 def iothub_client_telemetry_run():
     iothub_client = IothubClient(configuration['iothub_connection_string'])
+    iothub_client.send(json.dumps({
+        'plantation_id': configuration['plantation_id'],
+        'plantation':'started'
+    }))
 
     try:
+        global console_input
+        console_input = None
+        start_console_reader()
         while True:
+            if console_input is not None:
+                print("Console input: " + console_input)
+                console_input = None
+
             try:
                 for name, settings in configuration['planters'].items():
                     handle_planter(iothub_client, name, settings)
             except Exception as e:
                 sys.stderr.write('\n')
+
+            sys.stderr.flush()
+            sys.stdout.flush()
 
             time.sleep(configuration['delay'])
 
@@ -67,6 +134,7 @@ def configure(filenames):
                 else:
                     configuration.update(settings)
                     print("Configuration.")
+            sys.stdout.flush()
 
     except Exception as e:
         sys.stderr.write('Failed to read configuration file "%s" %s: "%s"\n' % (filename, e.__class__.__name__, str(e)))

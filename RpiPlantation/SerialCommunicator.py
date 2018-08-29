@@ -1,6 +1,9 @@
 import serial
+import sys
+
 
 open_ports = {}
+
 
 def open_serial(settings):
     port_name = settings['port']
@@ -11,17 +14,30 @@ def open_serial(settings):
     except serial.SerialException:
         print ('Port not available: ' + port_name)
 
-def read_from_serial(settings):
+
+def get_open_port(settings):
     port_name = settings['port']
 
     if port_name not in open_ports or not open_ports[port_name]:
         open_ports[port_name] = open_serial(settings)
-    port = open_ports[port_name]
+
+    return open_ports[port_name]
+
+
+def do_with_port(description, settings, handler):
+    port = get_open_port(settings)
 
     try:
-        port.write(b's\r\n');
-        return port.readline()
-    except serial.SerialException:
-        print ('Port not responding: ' + port_name)
+        return handler(port)
+    except serial.SerialException as se:
+        print('Failed to %s port "%s": %s' % (description, port_name, str(se)))
         port.close()
         open_ports.pop(port_name)
+
+
+def write_to_serial(settings, message):
+    return do_with_port('write to', settings, lambda port: port.write(b'%s\r\n' % message))
+
+
+def read_lines_from_serial(settings):
+    return do_with_port('read from', settings, lambda port: port.readlines())

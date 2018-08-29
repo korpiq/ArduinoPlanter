@@ -2,7 +2,6 @@ import sys
 import iothub_client
 from iothub_client import IoTHubClient, IoTHubClientError, IoTHubTransportProvider, IoTHubClientResult
 from iothub_client import IoTHubMessage, IoTHubMessageDispositionResult, IoTHubError, DeviceMethodReturnValue
-from local_config import CONNECTION_STRING
 
 
 class IothubClient(object):
@@ -39,7 +38,7 @@ class IothubClient(object):
         if result == IoTHubClientResult.OK:
             self.messages_confirmed += 1
         else:
-             sys.stderr.writeln( "IoTHub send \"%s\" failed: \"%s\"" % (message.message_id, result) )
+             sys.stderr.write( "IoTHub send \"%s\" failed: \"%s\"\n" % (message.message_id, result) )
              self.client = None
 
     def send(self, message):
@@ -49,5 +48,5 @@ class IothubClient(object):
             iothub_message.message_id = "message_%d" % self.messages_sent
             self.get_client().send_event_async(iothub_message, self.send_confirmation_callback, self.messages_sent)
         except IoTHubError as iothub_error:
-             sys.stderr.writeln( "IoTHub error: \"%s\"" % iothub_error )
+             sys.stderr.write( "IoTHub error: \"%s\"\n" % iothub_error )
              self.client = None
